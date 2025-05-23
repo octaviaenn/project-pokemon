@@ -1,0 +1,81 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+import static java.awt.GridBagConstraints.RELATIVE;
+import static java.awt.GridBagConstraints.REMAINDER;
+
+public class Homepage {
+
+    private CardLayout card;
+
+    public Homepage(JFrame frame){
+
+        JPanel home = new JPanel();
+        frame.add(home);
+
+        card = new CardLayout();
+        home.setSize(1500, 800);
+        home.setLayout(card);
+
+        //JPanel mainPanel = new JPanel();
+
+        //add(mainPanel, "HomePage");
+
+
+        ImagePanel homebg = new ImagePanel("assets\\blue-cloud.jpeg");
+        home.add(homebg, "Homepage");
+        home.add(new NewGame().create(), "NewGame");
+
+        homebg.setPreferredSize(new Dimension(1500, 800));
+        homebg.setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        JLabel title = new JLabel("LET'S PLAY CHARMON!");
+        title.setFont(new Font("Impact", Font.BOLD, 30));
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(10, 10, 70, 10);
+        homebg.add(title, c);
+
+        JButton newGame = new JButton("New Game");
+        newGame.setFont(new Font("Verdana", Font.BOLD, 20));
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.insets = new Insets(10, 10, 10, 55);
+        homebg.add(newGame, c);
+        newGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                card.show(home, "NewGame");
+            }
+        });
+
+        JButton resumeGame = new JButton("Resume Game");
+        resumeGame.setFont(new Font("Verdana", Font.BOLD, 20));
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.insets = new Insets(10, 55, 10, 10);
+        homebg.add(resumeGame, c);
+
+        JLabel tutorial = new JLabel("Click here if you need tutorial");
+        tutorial.setFont(new Font("Arial", Font.BOLD, 20));
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(50, 10, 10, 10);
+        homebg.add(tutorial, c);
+
+    }
+
+    public CardLayout getCard(){
+        return card;
+    }
+}
