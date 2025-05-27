@@ -2,11 +2,14 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Main {
+    public static JFrame frame = new JFrame();
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
+        //frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1500, 800);
-        Homepage homepage = new Homepage(frame);
+        frame.setSize(1400, 750);
+        frame.setLocationRelativeTo(null);
+        Onboard onboard = new Onboard(frame);
         //frame.add(homepage);
         frame.setVisible(true);
     }

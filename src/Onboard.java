@@ -3,20 +3,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import static java.awt.GridBagConstraints.RELATIVE;
-import static java.awt.GridBagConstraints.REMAINDER;
+public class Onboard {
 
-public class Homepage {
+    private static CardLayout card;
+    private static JPanel home;
 
-    private CardLayout card;
+    public Onboard(JFrame frame){
 
-    public Homepage(JFrame frame){
-
-        JPanel home = new JPanel();
+        home = new JPanel();
         frame.add(home);
 
         card = new CardLayout();
-        home.setSize(1500, 800);
+        home.setSize(1400, 750);
         home.setLayout(card);
 
         //JPanel mainPanel = new JPanel();
@@ -25,10 +23,10 @@ public class Homepage {
 
 
         ImagePanel homebg = new ImagePanel("assets\\blue-cloud.jpeg");
-        home.add(homebg, "Homepage");
-        home.add(new NewGame().create(), "NewGame");
+        home.add(homebg, "Onboard");
+        home.add(new NewGame().page(), "NewGame");
 
-        homebg.setPreferredSize(new Dimension(1500, 800));
+        homebg.setPreferredSize(new Dimension(1400, 750));
         homebg.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -75,7 +73,11 @@ public class Homepage {
 
     }
 
-    public CardLayout getCard(){
+    public static CardLayout getCard(){
         return card;
+    }
+
+    public static JPanel getHome(){
+        return home;
     }
 }
