@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class User {
+
+    private String name;
+    private int level;
+    private int coin;
+    private int potion;
+    private Charmon currentChar;
+    private Charmon[] chara = new Charmon[15];
+    //private String[] charaName = new String[5]
+    private int charaCount = 0;
+
+    public User(String name){
+        this.name = name;
+        level = 1;
+        coin = 1000;
+        potion = 0;
+    }
+
+    public String getName(){return name;}
+
+    public int getLevel(){return level;}
+
+    public int getCoin(){return coin;}
+
+    public int getPotion(){return potion;}
+
+    public Charmon getCurrentChar(){return currentChar;}
+
+    public void changeChara(String name){
+        for(int i=0; i<charaCount; i++){
+            if(chara[i].getName().equals(name)){
+                currentChar = chara[i];
+                return;
+            }
+        }
+    }
+
+    public void addChara(Charmon charmon){
+        charaCount++;
+        chara[charaCount] = charmon;
+    }
+
+    public void addLevel(){
+        level++;
+        coin+=1000;
+        for(int i=0; i<charaCount; i++){
+            chara[i].setHealth(20);
+            chara[i].setAttack(10);
+        }
+    }
+
+    public void upgradeHealth(){
+        for(int i=0; i<charaCount; i++){
+            chara[i].setHealth(20);
+        }
+    }
+
+    public void upgradeDamage(){
+        for(int i=0; i<charaCount; i++){
+            chara[i].setAttack(10);
+        }
+    }
+
+    public void addPotion(int sum){
+        potion += sum;
+    }
+}

@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class NewGame {
 
@@ -56,16 +60,24 @@ public class NewGame {
         input.setOpaque(false);
         top.add(input);
 
-        JPanel pict = new JPanel();
+        ImagePanel pict = new ImagePanel("assets\\cathy.png");
         //pict.setPreferredSize(new Dimension(750, 550));
-        pict.setBounds(750, 0, 700, 500);
-        pict.setBackground(Color.BLUE);
+        pict.setBounds(1000, 196, 268, 304);
         top.add(pict);
 
 //        CardLayout cardBack = new CardLayout();
-        JPanel backBtn = new JPanel();
-        backBtn.setBounds(50, 590, 30, 30);
-        backBtn.setBackground(Color.black);
+        BufferedImage backImage = null;
+        try {
+            backImage = ImageIO.read(new File("assets\\back-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image back = backImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        JButton backBtn = new JButton(new ImageIcon(back));
+        backBtn.setBorderPainted(false);
+        backBtn.setContentAreaFilled(false);
+        backBtn.setBounds(40, 580, 50, 50);
+        //backBtn.setBackground(Color.black);
         newGame.add(backBtn);
         backBtn.setVisible(false);
 
@@ -82,9 +94,18 @@ public class NewGame {
 //        cardBack.show(backBtn, "Not");
 
         //CardLayout cardNext = new CardLayout();
-        JPanel nextBtn = new JPanel();
-        nextBtn.setBounds(1330, 590, 30, 30);
-        nextBtn.setBackground(Color.black);
+        BufferedImage nextImage = null;
+        try {
+            nextImage = ImageIO.read(new File("assets\\next-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image next = nextImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        JButton nextBtn = new JButton(new ImageIcon(next));
+        nextBtn.setBorderPainted(false);
+        nextBtn.setContentAreaFilled(false);
+        nextBtn.setBounds(1310, 580, 50, 50);
+        //nextBtn.setBackground(Color.black);
         newGame.add(nextBtn);
 
 //        JPanel nextVis = new JPanel();
@@ -97,7 +118,9 @@ public class NewGame {
 //        cardNext.show(nextBtn, "Visible");
 
         cardText = new CardLayout();
-        JPanel text = new JPanel(cardText);
+        ImagePanel text = new ImagePanel("assets\\textbox.png");
+        text.setLayout(cardText);
+        //JPanel text = new JPanel(cardText);
         //text.setPreferredSize(new Dimension(1200, 200));
         text.setBounds(100, 500, 1200, 200);
         //text.setBackground(Color.WHITE);
@@ -177,9 +200,9 @@ public class NewGame {
 
         JPanel empty = new JPanel();
         empty.setPreferredSize(new Dimension(700, 500));
-        //empty.setOpaque(false);
+        empty.setOpaque(false);
         empty.setBounds(0, 0, 700, 500);
-        empty.setBackground(Color.BLACK);
+        //empty.setBackground(Color.BLACK);
         input.add(empty, "Empty");
 
         JPanel inputName = new JPanel(null);

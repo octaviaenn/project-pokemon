@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -5,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class BattleScreen {
 
@@ -35,9 +39,18 @@ public class BattleScreen {
 //        enemyPanel.setBounds(775, 0, 500, 300);
 //        enemyPanel.setOpaque(false);
 
-        JButton setting = new JButton("O");
-        setting.setBounds(1300, 25, 30, 30);
-        battleBg.add(setting);
+        BufferedImage optImage = null;
+        try {
+            optImage = ImageIO.read(new File("assets\\opt-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image opt = optImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        JButton option = new JButton(new ImageIcon(opt));
+        option.setBorderPainted(false);
+        option.setContentAreaFilled(false);
+        option.setBounds(1290, 25, 50, 50);
+        battleBg.add(option);
 
         CardLayout cardEnemy = new CardLayout();
         JPanel enemyCard = new JPanel(cardEnemy);
@@ -88,8 +101,17 @@ public class BattleScreen {
         playerCard.add(player, "Player");
 
         //CardLayout cardNext = new CardLayout();
-        JPanel nextBtn = new JPanel();
-        nextBtn.setBounds(1300, 600, 30, 30);
+        BufferedImage nextImage = null;
+        try {
+            nextImage = ImageIO.read(new File("assets\\next-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image next = nextImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        JButton nextBtn = new JButton(new ImageIcon(next));
+        nextBtn.setBorderPainted(false);
+        nextBtn.setContentAreaFilled(false);
+        nextBtn.setBounds(1290, 580, 50, 50);
         nextBtn.setBackground(Color.black);
         battleBg.add(nextBtn);
 
@@ -160,17 +182,17 @@ public class BattleScreen {
             }
         });
 
-        JPanel settingPanel = new JPanel();
-        settingPanel.setPreferredSize(new Dimension(1000, 400));
+        JPanel optionPanel = new JPanel();
+        optionPanel.setPreferredSize(new Dimension(1000, 400));
         JButton resume = new JButton("Resume");
         JButton quit = new JButton("Quit");
-        settingPanel.add(resume);
-        settingPanel.add(quit);
+        optionPanel.add(resume);
+        optionPanel.add(quit);
 
-        JOptionPane optionSetting = new JOptionPane(settingPanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
+        JOptionPane optionSetting = new JOptionPane(optionPanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         JDialog dialogSetting = optionSetting.createDialog("What do you want to do?");
 
-        setting.addActionListener(new ActionListener() {
+        option.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 dialogSetting.setVisible(true);
             }
@@ -248,8 +270,23 @@ public class BattleScreen {
             }
         });
 
+        JPanel attackPanel = new JPanel(new GridLayout(3, 1));
+        attackPanel.setPreferredSize(new Dimension(300, 300));
+        JButton basic = new JButton("basic");
+        JButton special = new JButton("special");
+        JButton elemental = new JButton("elemental");
+        attackPanel.add(basic);
+        attackPanel.add(special);
+        attackPanel.add(elemental);
+
+        JOptionPane optionAttack = new JOptionPane(attackPanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
+        JDialog dialogAttack = optionAttack.createDialog("Choose your attack!");
+
         fight.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+
+                dialogAttack.setVisible(true);
+
                 // animation dulu, jalanin battlenya, nanti tanya mau lanjut apa exit
                 // janlup page balikin 1
                 //dialogMove.setVisible(true);
