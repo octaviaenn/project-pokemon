@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class BattleScreen {
 
@@ -79,26 +80,37 @@ public class BattleScreen {
 //        battleBg.add(playerPanel);
 
         CardLayout cardText = new CardLayout();
-        JPanel text = new JPanel(cardText);
+        TransparentPanel text = new TransparentPanel("assets\\text.png");
+        text.setLayout(cardText);
         text.setBounds(75, 500, 1200, 200);
-        text.setBackground(new Color(235, 213, 200));
+        //text.setOpaque(false);
         battleBg.add(text);
 
         JPanel enemy = new JPanel(null);
-        enemy.setBackground(Color.black);
+        //enemy.setBackground(Color.black);
+        enemy.setOpaque(false);
         JPanel enemyStat = new JPanel();
         enemyStat.setBounds(0, 0, 450, 75);
         enemyStat.setBackground(new Color(235, 213, 200));
         enemy.add(enemyStat);
         enemyCard.add(enemy, "Enemy");
 
+        ImageIcon enemyIcon = new ImageIcon("assets\\charmon\\pikachu-front.gif");
+        JLabel enemyLabel = new JLabel(enemyIcon);
+        enemy.add(enemyLabel);
+
         JPanel player = new JPanel(null);
-        player.setBackground(Color.black);
+        //player.setBackground(Color.black);
+        player.setOpaque(false);
         JPanel playerStat = new JPanel();
         playerStat.setBounds(50, 150, 450, 75);
         playerStat.setBackground(new Color(235, 213, 200));
         player.add(playerStat);
         playerCard.add(player, "Player");
+
+        ImageIcon playerIcon = new ImageIcon("assets\\charmon\\pikachu-back.gif");
+        JLabel playerLabel = new JLabel(playerIcon);
+        player.add(playerLabel);
 
         //CardLayout cardNext = new CardLayout();
         BufferedImage nextImage = null;
@@ -127,43 +139,76 @@ public class BattleScreen {
 //        nextBtn.add(notAvail, "Not");
 
         JPanel text1 = new JPanel();
-        text1.setPreferredSize(new Dimension(1200, 200));
+        text1.setPreferredSize(new Dimension(1050, 200));
         JLabel turn = new JLabel();
         turn.setText(setText);
         turn.setFont(new Font("Courier New", Font.BOLD, 20));
-        turn.setBorder(new EmptyBorder(20, 15, 20, 15));
+        turn.setBorder(new EmptyBorder(0, 50, 30, 50));
         turn.setPreferredSize(new Dimension(1100, 200));
-        text1.setBackground(new Color(235, 213, 200));
+        text1.setOpaque(false);
         text1.add(turn, BorderLayout.CENTER);
         text.add(text1, "Text1");
 
         JPanel text2 = new JPanel();
-        text2.setPreferredSize(new Dimension(1200, 200));
+        text2.setPreferredSize(new Dimension(1050, 200));
         JLabel monsterAppear = new JLabel("Wild (monster) appeared!");
         monsterAppear.setFont(new Font("Courier New", Font.BOLD, 20));
-        monsterAppear.setBorder(new EmptyBorder(20, 15, 20, 15));
+        monsterAppear.setBorder(new EmptyBorder(0, 50, 30, 50));
         monsterAppear.setPreferredSize(new Dimension(1100, 200));
-        text2.setBackground(new Color(235, 213, 200));
+        text2.setOpaque(false);
         text2.add(monsterAppear, BorderLayout.CENTER);
         text.add(text2, "Text2");
 
         JPanel text3 = new JPanel(null);
-        text3.setPreferredSize(new Dimension(1200, 200));
+        text3.setPreferredSize(new Dimension(1050, 200));
         JLabel playerDo = new JLabel("What will (chara) do?");
         playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
-        //playerDo.setBorder(new EmptyBorder(20, 15, 20, 15));
+        playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
         playerDo.setBounds(65, 95, 700, 20);
-        JButton fight = new JButton("FIGHT");
-        JButton run = new JButton("RUN");
-        JButton bag = new JButton("BAG");
-        fight.setBounds(750, 70, 100, 60);
-        run.setBounds(900, 70, 100, 60);
-        bag.setBounds(1050, 70, 100, 60);
-        text3.setBackground(new Color(235, 213, 200));
+        //ImageIcon fightImage = new ImageIcon("assets\\fight.png");
+        //ImageIcon runImage = new ImageIcon("assets\\run.png");
+        //ImageIcon healImage = new ImageIcon("assets\\heal.png");
+        BufferedImage fightImage = null;
+        try {
+            fightImage = ImageIO.read(new File("assets\\fight.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image f = fightImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JButton fight = new JButton(new ImageIcon(f));
+        //JButton fight = new JButton(fightImage);
+        BufferedImage runImage = null;
+        try {
+            runImage = ImageIO.read(new File("assets\\run.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image r = runImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JButton run = new JButton(new ImageIcon(r));
+        //JButton run = new JButton(runImage);
+        BufferedImage healImage = null;
+        try {
+            healImage = ImageIO.read(new File("assets\\heal.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image h = healImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JButton heal = new JButton(new ImageIcon(h));
+        //JButton heal = new JButton(healImage);
+        fight.setBorderPainted(false);
+        fight.setContentAreaFilled(false);
+        run.setBorderPainted(false);
+        run.setContentAreaFilled(false);
+        heal.setBorderPainted(false);
+        heal.setContentAreaFilled(false);
+        fight.setBounds(700, 60, 100, 60);
+        run.setBounds(850, 60, 100, 60);
+        heal.setBounds(1000, 60, 100, 60);
+        text3.setOpaque(false);
         text3.add(playerDo);
         text3.add(fight);
         text3.add(run);
-        text3.add(bag);
+        text3.add(heal);
         text.add(text3, "Text3");
 
 //        text.addMouseListener(new MouseAdapter() {
@@ -184,8 +229,31 @@ public class BattleScreen {
 
         JPanel optionPanel = new JPanel();
         optionPanel.setPreferredSize(new Dimension(1000, 400));
-        JButton resume = new JButton("Resume");
-        JButton quit = new JButton("Quit");
+        BufferedImage resumeImage = null;
+        try {
+            resumeImage = ImageIO.read(new File("assets\\resume.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image res = resumeImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        JButton resume = new JButton(new ImageIcon(res));
+
+        BufferedImage quitImage = null;
+        try {
+            quitImage = ImageIO.read(new File("assets\\quit.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image qu = quitImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        JButton quit = new JButton(new ImageIcon(qu));
+//        ImageIcon resumeImage = new ImageIcon("assets\\resume.png");
+//        ImageIcon quitImage = new ImageIcon("assets\\quit.png");
+//        JButton resume = new JButton(resumeImage);
+//        JButton quit = new JButton(quitImage);
+        resume.setBorderPainted(false);
+        resume.setContentAreaFilled(false);
+        quit.setBorderPainted(false);
+        quit.setContentAreaFilled(false);
         optionPanel.add(resume);
         optionPanel.add(quit);
 
@@ -212,10 +280,58 @@ public class BattleScreen {
 
         JPanel movePanel = new JPanel(new BorderLayout());
         movePanel.setPreferredSize(new Dimension(1000, 400));
-        JButton west = new JButton("West");
-        JButton north = new JButton("North");
-        JButton east = new JButton("East");
-        JButton south = new JButton("South");
+        BufferedImage westImage = null;
+        try {
+            westImage = ImageIO.read(new File("assets\\west-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image w = westImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        JButton west = new JButton(new ImageIcon(w));
+
+        BufferedImage northImage = null;
+        try {
+            northImage = ImageIO.read(new File("assets\\north-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image n = northImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        JButton north = new JButton(new ImageIcon(n));
+
+        BufferedImage eastImage = null;
+        try {
+            eastImage = ImageIO.read(new File("assets\\east-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image ea = eastImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        JButton east = new JButton(new ImageIcon(ea));
+
+        BufferedImage southImage = null;
+        try {
+            southImage = ImageIO.read(new File("assets\\south-btn.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image s = southImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        JButton south = new JButton(new ImageIcon(s));
+
+//        ImageIcon w = new ImageIcon("assets\\west-btn.png");
+//        ImageIcon n = new ImageIcon("assets\\north-btn.png");
+//        ImageIcon e = new ImageIcon("assets\\east-btn.png");
+//        ImageIcon s = new ImageIcon("assets\\south-btn.png");
+//        JButton west = new JButton(w);
+//        JButton north = new JButton(n);
+//        JButton east = new JButton(e);
+//        JButton south = new JButton(s);
+        west.setBorderPainted(false);
+        west.setContentAreaFilled(false);
+        north.setBorderPainted(false);
+        north.setContentAreaFilled(false);
+        east.setBorderPainted(false);
+        east.setContentAreaFilled(false);
+        south.setBorderPainted(false);
+        south.setContentAreaFilled(false);
         JLabel move = new JLabel("Move");
         movePanel.add(west, BorderLayout.WEST);
         movePanel.add(north, BorderLayout.NORTH);
@@ -272,9 +388,44 @@ public class BattleScreen {
 
         JPanel attackPanel = new JPanel(new GridLayout(3, 1));
         attackPanel.setPreferredSize(new Dimension(300, 300));
-        JButton basic = new JButton("basic");
-        JButton special = new JButton("special");
-        JButton elemental = new JButton("elemental");
+        BufferedImage basicImage = null;
+        try {
+            basicImage = ImageIO.read(new File("assets\\basic.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image bas = basicImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        JButton basic = new JButton(new ImageIcon(bas));
+
+        BufferedImage specialImage = null;
+        try {
+            specialImage = ImageIO.read(new File("assets\\special.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image spec = specialImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        JButton special = new JButton(new ImageIcon(spec));
+
+        BufferedImage elementalImage = null;
+        try {
+            elementalImage = ImageIO.read(new File("assets\\elemental.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image el = elementalImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        JButton elemental = new JButton(new ImageIcon(el));
+//        ImageIcon basicImage = new ImageIcon("assets\\basic.png");
+//        ImageIcon specialImage = new ImageIcon("assets\\special.png");
+//        ImageIcon elementalImage = new ImageIcon("assets\\elemental.png");
+//        JButton basic = new JButton("basic");
+//        JButton special = new JButton("special");
+//        JButton elemental = new JButton("elemental");
+        basic.setBorderPainted(false);
+        basic.setContentAreaFilled(false);
+        special.setBorderPainted(false);
+        special.setContentAreaFilled(false);
+        elemental.setBorderPainted(false);
+        elemental.setContentAreaFilled(false);
         attackPanel.add(basic);
         attackPanel.add(special);
         attackPanel.add(elemental);
@@ -304,7 +455,7 @@ public class BattleScreen {
             }
         });
 
-        bag.addActionListener(new ActionListener(){
+        heal.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
 
             }

@@ -27,26 +27,29 @@ public class Onboard {
         home.add(new NewGame().page(), "NewGame");
 
         homebg.setPreferredSize(new Dimension(1400, 750));
-        homebg.setLayout(new GridBagLayout());
+        homebg.setLayout(new GridLayout(4, 1));
 
         GridBagConstraints c = new GridBagConstraints();
 
         JLabel title = new JLabel("LET'S PLAY CHARMON!");
         title.setFont(new Font("Impact", Font.BOLD, 30));
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(10, 10, 70, 10);
-        homebg.add(title, c);
+//        c.gridx = 0;
+//        c.gridy = 0;
+//        c.gridwidth = 2;
+//        c.anchor = GridBagConstraints.CENTER;
+//        c.insets = new Insets(10, 10, 70, 10);
+        homebg.add(title);
 
-        JButton newGame = new JButton("New Game");
-        newGame.setFont(new Font("Verdana", Font.BOLD, 20));
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.insets = new Insets(10, 10, 10, 55);
-        homebg.add(newGame, c);
+        ImageIcon neww = new ImageIcon("new-game.png");
+        JButton newGame = new JButton(neww);
+        //newGame.setFont(new Font("Verdana", Font.BOLD, 20));
+        newGame.setBorderPainted(false);
+        newGame.setContentAreaFilled(false);
+//        c.gridx = 0;
+//        c.gridy = 1;
+//        c.gridwidth = 1;
+//        c.insets = new Insets(10, 10, 10, 55);
+        homebg.add(newGame);
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,22 +57,29 @@ public class Onboard {
             }
         });
 
-        JButton resumeGame = new JButton("Resume Game");
-        resumeGame.setFont(new Font("Verdana", Font.BOLD, 20));
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.insets = new Insets(10, 55, 10, 10);
-        homebg.add(resumeGame, c);
+        ImageIcon resume = new ImageIcon("resume-game.png");
+        JButton resumeGame = new JButton(resume);
+        //resumeGame.setFont(new Font("Verdana", Font.BOLD, 20));
+        resumeGame.setBorderPainted(false);
+        resumeGame.setContentAreaFilled(false);
+//        c.gridx = 1;
+//        c.gridy = 1;
+//        c.gridwidth = 1;
+//        c.insets = new Insets(10, 55, 10, 10);
+        homebg.add(resumeGame);
 
-        JLabel tutorial = new JLabel("Click here if you need tutorial");
-        tutorial.setFont(new Font("Arial", Font.BOLD, 20));
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(50, 10, 10, 10);
-        homebg.add(tutorial, c);
+//        JLabel tutorial = new JLabel("Click here if you need tutorial");
+//        tutorial.setFont(new Font("Arial", Font.BOLD, 20));
+        ImageIcon exit = new ImageIcon("exit.png");
+        JButton exitGame = new JButton(exit);
+        exitGame.setBorderPainted(false);
+        exitGame.setContentAreaFilled(false);
+//        c.gridx = 0;
+//        c.gridy = 2;
+//        c.gridwidth = 2;
+//        c.anchor = GridBagConstraints.CENTER;
+//        c.insets = new Insets(50, 10, 10, 10);
+        homebg.add(exitGame);
 
     }
 

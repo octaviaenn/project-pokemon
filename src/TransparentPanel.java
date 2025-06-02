@@ -6,25 +6,24 @@ import java.io.IOException;
 import java.util.*;
 import javax.imageio.*;
 
-public class ImagePanel extends JPanel{
+public class TransparentPanel extends JPanel{
 
     private BufferedImage image;
 
-    public ImagePanel(String path){
+    public TransparentPanel(String path){
 
         try{
             image = ImageIO.read(new File(path));
         } catch (IOException e){
             e.printStackTrace();
         }
+        setOpaque(false);
 
     }
 
     protected void paintComponent(Graphics g){
-
-        super.paintComponent(g);
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-
+        super.paintComponent(g);
     }
 
 }
