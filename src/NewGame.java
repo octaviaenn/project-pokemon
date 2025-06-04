@@ -9,25 +9,27 @@ import java.io.IOException;
 
 public class NewGame {
 
-    //private CardLayout card;
+    // private CardLayout card;
     private CardLayout cardText;
     private CardLayout cardInput;
     private int pageText = 1;
+    private TransparentPanel text;
+    private User newUser;
 
     public NewGame() {
 
     }
 
-    public JPanel page(){
+    public JPanel page() {
 
         JPanel home = Onboard.getHome();
         CardLayout mainCard = Onboard.getCard();
 
         JPanel main = new JPanel();
 
-        //card = new CardLayout();
+        // card = new CardLayout();
         main.setSize(1400, 750);
-        //main.setLayout(card);
+        // main.setLayout(card);
 
         ImagePanel newGame = new ImagePanel("assets\\basic-bg.jpeg");
         main.add(newGame, "NewGame");
@@ -35,22 +37,22 @@ public class NewGame {
         newGame.setPreferredSize(new Dimension(1400, 750));
         newGame.setLayout(null);
 
-        //GridBagConstraints c = new GridBagConstraints();
+        // GridBagConstraints c = new GridBagConstraints();
 
         JPanel top = new JPanel(null);
-        //top.setLayout(new GridLayout(1, 2));
+        // top.setLayout(new GridLayout(1, 2));
         top.setOpaque(false);
         top.setBounds(0, 0, 1400, 500);
-        //top.setBackground(Color.PINK);
-//        c.gridx = 0;
-//        c.gridy = 0;
-//        c.gridheight = 2;
-//        c.gridwidth = 1;
-//        c.weighty = 0;
-//        //c.anchor = GridBagConstraints.;
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.insets = new Insets(10, 10, 10, 10);
-        //c.gridheight = ;
+        // top.setBackground(Color.PINK);
+        // c.gridx = 0;
+        // c.gridy = 0;
+        // c.gridheight = 2;
+        // c.gridwidth = 1;
+        // c.weighty = 0;
+        // //c.anchor = GridBagConstraints.;
+        // c.fill = GridBagConstraints.HORIZONTAL;
+        // c.insets = new Insets(10, 10, 10, 10);
+        // c.gridheight = ;
         newGame.add(top);
 
         cardInput = new CardLayout();
@@ -61,11 +63,11 @@ public class NewGame {
         top.add(input);
 
         TransparentPanel pict = new TransparentPanel("assets\\cathy.png");
-        //pict.setPreferredSize(new Dimension(750, 550));
-        pict.setBounds(1000, 200, 268, 304);
+        // pict.setPreferredSize(new Dimension(750, 550));
+        pict.setBounds(900, 210, 268, 304);
         top.add(pict);
 
-//        CardLayout cardBack = new CardLayout();
+        // CardLayout cardBack = new CardLayout();
         BufferedImage backImage = null;
         try {
             backImage = ImageIO.read(new File("assets\\back-btn.png"));
@@ -77,23 +79,23 @@ public class NewGame {
         backBtn.setBorderPainted(false);
         backBtn.setContentAreaFilled(false);
         backBtn.setBounds(40, 580, 50, 50);
-        //backBtn.setBackground(Color.black);
+        // backBtn.setBackground(Color.black);
         newGame.add(backBtn);
         backBtn.setVisible(false);
 
-//        JPanel notAvail = new JPanel();
-//        notAvail.setOpaque(false);
-//        backBtn.add(notAvail, "Not");
+        // JPanel notAvail = new JPanel();
+        // notAvail.setOpaque(false);
+        // backBtn.add(notAvail, "Not");
 
-//        JPanel backVis = new JPanel();
-//        backVis.setBackground(Color.black);
-////        JButton back = new JButton("Back");
-////        back.setBounds(0, 0, 30, 30);
-////        backVis.add(back);
-//        backBtn.add(backVis, "Visible");
-//        cardBack.show(backBtn, "Not");
+        // JPanel backVis = new JPanel();
+        // backVis.setBackground(Color.black);
+        //// JButton back = new JButton("Back");
+        //// back.setBounds(0, 0, 30, 30);
+        //// backVis.add(back);
+        // backBtn.add(backVis, "Visible");
+        // cardBack.show(backBtn, "Not");
 
-        //CardLayout cardNext = new CardLayout();
+        // CardLayout cardNext = new CardLayout();
         BufferedImage nextImage = null;
         try {
             nextImage = ImageIO.read(new File("assets\\next-btn.png"));
@@ -105,31 +107,31 @@ public class NewGame {
         nextBtn.setBorderPainted(false);
         nextBtn.setContentAreaFilled(false);
         nextBtn.setBounds(1310, 580, 50, 50);
-        //nextBtn.setBackground(Color.black);
+        // nextBtn.setBackground(Color.black);
         newGame.add(nextBtn);
 
-//        JPanel nextVis = new JPanel();
-//        nextVis.setBackground(Color.black);
-////        JButton next = new JButton("Next");
-////        next.setBounds(1170, 600, 30, 30);
-////        nextVis.add(next);
-//        nextBtn.add(nextVis, "Visible");
-//        nextBtn.add(notAvail, "Not");
-//        cardNext.show(nextBtn, "Visible");
+        // JPanel nextVis = new JPanel();
+        // nextVis.setBackground(Color.black);
+        //// JButton next = new JButton("Next");
+        //// next.setBounds(1170, 600, 30, 30);
+        //// nextVis.add(next);
+        // nextBtn.add(nextVis, "Visible");
+        // nextBtn.add(notAvail, "Not");
+        // cardNext.show(nextBtn, "Visible");
 
         cardText = new CardLayout();
-        TransparentPanel text = new TransparentPanel("assets\\text.png");
+        text = new TransparentPanel("assets\\text.png");
         text.setLayout(cardText);
-        //JPanel text = new JPanel(cardText);
-        //text.setPreferredSize(new Dimension(1200, 200));
+        // JPanel text = new JPanel(cardText);
+        // text.setPreferredSize(new Dimension(1200, 200));
         text.setBounds(100, 500, 1200, 200);
-        //text.setBackground(Color.WHITE);
-//        c.gridx = 0;
-//        c.gridy = 2;
-//        c.gridheight = 1;
-//        c.gridwidth = 1;
-//        c.weighty = 1.0;
-//        c.anchor = GridBagConstraints.PAGE_END;
+        // text.setBackground(Color.WHITE);
+        // c.gridx = 0;
+        // c.gridy = 2;
+        // c.gridheight = 1;
+        // c.gridwidth = 1;
+        // c.weighty = 1.0;
+        // c.anchor = GridBagConstraints.PAGE_END;
         newGame.add(text);
 
         JPanel text1 = new JPanel();
@@ -138,126 +140,138 @@ public class NewGame {
         hello.setFont(new Font("Courier New", Font.BOLD, 20));
         hello.setBorder(new EmptyBorder(0, 50, 30, 50));
         hello.setPreferredSize(new Dimension(1100, 200));
-//        text1.setBackground(new Color(235, 213, 200));
-//        text1.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // text1.setBackground(new Color(235, 213, 200));
+        // text1.setLayout(new FlowLayout(FlowLayout.CENTER));
         text1.setOpaque(false);
         text1.add(hello, BorderLayout.CENTER);
         text.add(text1, "Text1");
 
         JPanel text2 = new JPanel();
         text2.setPreferredSize(new Dimension(1050, 200));
-        JLabel profName = new JLabel("<html><div style='width:1100px;'>I'm Cathy, your guide in this fantastic land filled with mystical creatures<br>called Charmon.</div></html>");
+        JLabel profName = new JLabel(
+                "<html><div style='width:1100px;'>I'm Cathy, your guide in this fantastic land filled with mystical creatures<br>called Charmon.</div></html>");
         profName.setFont(new Font("Courier New", Font.BOLD, 20));
         profName.setBorder(new EmptyBorder(0, 50, 30, 50));
         profName.setPreferredSize(new Dimension(1100, 200));
-//        text2.setBackground(new Color(235, 213, 200));
-//        text2.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // text2.setBackground(new Color(235, 213, 200));
+        // text2.setLayout(new FlowLayout(FlowLayout.CENTER));
         text2.setOpaque(false);
         text2.add(profName, BorderLayout.CENTER);
         text.add(text2, "Text2");
 
         JPanel text3 = new JPanel();
         text3.setPreferredSize(new Dimension(1050, 200));
-        JLabel backStory = new JLabel("<html><div style='width:1100px;'>Back in my day, we raised Charmon with love.</div></html>");
+        JLabel backStory = new JLabel(
+                "<html><div style='width:1100px;'>Back in my day, we raised Charmon with love.</div></html>");
         backStory.setFont(new Font("Courier New", Font.BOLD, 20));
         backStory.setBorder(new EmptyBorder(0, 50, 30, 50));
         backStory.setPreferredSize(new Dimension(1100, 200));
-//        text3.setBackground(new Color(235, 213, 200));
-//        text3.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // text3.setBackground(new Color(235, 213, 200));
+        // text3.setLayout(new FlowLayout(FlowLayout.CENTER));
         text3.setOpaque(false);
         text3.add(backStory, BorderLayout.CENTER);
         text.add(text3, "Text3");
 
         JPanel text4 = new JPanel();
         text4.setPreferredSize(new Dimension(1050, 200));
-        JLabel urTurn = new JLabel("<html><div style='width:1100px;'>And now, it's your turn to raise one, and explore the world!</div></html>");
+        JLabel urTurn = new JLabel(
+                "<html><div style='width:1100px;'>And now, it's your turn to raise one, and explore the world!</div></html>");
         urTurn.setFont(new Font("Courier New", Font.BOLD, 20));
         urTurn.setBorder(new EmptyBorder(0, 50, 30, 50));
         urTurn.setPreferredSize(new Dimension(1100, 200));
-//        text4.setBackground(new Color(235, 213, 200));
-//        text4.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // text4.setBackground(new Color(235, 213, 200));
+        // text4.setLayout(new FlowLayout(FlowLayout.CENTER));
         text4.setOpaque(false);
         text4.add(urTurn, BorderLayout.CENTER);
         text.add(text4, "Text4");
 
         JPanel text5 = new JPanel();
         text5.setPreferredSize(new Dimension(1050, 200));
-        JLabel who = new JLabel("<html><div style='width:1100px;'>But before we begin, tell me about yourself! What is your name?</div></html>");
+        JLabel who = new JLabel(
+                "<html><div style='width:1100px;'>But before we begin, tell me about yourself! What is your name?</div></html>");
         who.setFont(new Font("Courier New", Font.BOLD, 20));
         who.setBorder(new EmptyBorder(0, 50, 30, 50));
         who.setPreferredSize(new Dimension(1100, 200));
-//        text5.setBackground(new Color(235, 213, 200));
-//        text5.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // text5.setBackground(new Color(235, 213, 200));
+        // text5.setLayout(new FlowLayout(FlowLayout.CENTER));
         text5.setOpaque(false);
         text5.add(who, BorderLayout.CENTER);
         text.add(text5, "Text5");
 
-        JPanel text6 = new JPanel();
-        text6.setPreferredSize(new Dimension(1050, 200));
-        JLabel ntmy = new JLabel("<html><div style='width:1100px;'>Nice to meet you [name]! Now, it's time to choose your first Charmon companion!</div></html>");
-        ntmy.setFont(new Font("Courier New", Font.BOLD, 20));
-        ntmy.setBorder(new EmptyBorder(0, 50, 30, 50));
-        ntmy.setPreferredSize(new Dimension(1100, 200));
-//        text6.setBackground(new Color(235, 213, 200));
-//        text6.setLayout(new FlowLayout(FlowLayout.CENTER));
-        text6.setOpaque(false);
-        text6.add(ntmy, BorderLayout.CENTER);
-        text.add(text6, "Text6");
+        // JPanel text6 = new JPanel();
+        // text6.setPreferredSize(new Dimension(1050, 200));
+        // JLabel ntmy = new JLabel(
+        // "<html><div style='width:1100px;'>Nice to meet you [name]! Now, it's time to
+        // choose your first Charmon companion!</div></html>");
+        // ntmy.setFont(new Font("Courier New", Font.BOLD, 20));
+        // ntmy.setBorder(new EmptyBorder(0, 50, 30, 50));
+        // ntmy.setPreferredSize(new Dimension(1100, 200));
+        // // text6.setBackground(new Color(235, 213, 200));
+        // // text6.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // text6.setOpaque(false);
+        // text6.add(ntmy, BorderLayout.CENTER);
+        // text.add(text6, "Text6");
 
         JPanel empty = new JPanel();
         empty.setPreferredSize(new Dimension(700, 500));
         empty.setOpaque(false);
         empty.setBounds(0, 0, 700, 500);
-        //empty.setBackground(Color.BLACK);
+        // empty.setBackground(Color.BLACK);
         input.add(empty, "Empty");
 
         TransparentPanel inputBox = new TransparentPanel("assets\\player-box.png");
+        // inputBox.setLayout(null);
         JPanel inputName = new JPanel();
         inputName.setBounds(0, 0, 700, 500);
         JLabel nameText = new JLabel("Enter your name here");
         JTextField name = new JTextField();
         name.setOpaque(false);
+        name.setPreferredSize(new Dimension(270, 60));
         name.setBounds(15, 20, 270, 60);
-//        name.setBorder(new EmptyBorder(0, 15, 30, 15));
+        // name.setBorder(new EmptyBorder(0, 15, 30, 15));
         inputName.setOpaque(false);
         inputBox.add(name);
-        inputName.add(inputBox, BorderLayout.CENTER);
+        inputName.add(nameText);
+        inputName.add(inputBox);
         input.add(inputName, "InputName");
 
-//        text.addMouseListener(new MouseAdapter() {
-//            public void mouseClicked(MouseEvent e) {
-//                pageText++;
-//                cardText.show(text, String.format("Text%d", pageText));
-//                if(pageText==5) cardInput.show(input, "InputName");
-//                else cardInput.show(input, "Empty");
-//                if(pageText==7) {
-//                    home.add(new BattleScreen().page(), "BattleScreen");
-//                    mainCard.show(home, "BattleScreen");
-//                }
-//            }
-//        });
+        // text.addMouseListener(new MouseAdapter() {
+        // public void mouseClicked(MouseEvent e) {
+        // pageText++;
+        // cardText.show(text, String.format("Text%d", pageText));
+        // if(pageText==5) cardInput.show(input, "InputName");
+        // else cardInput.show(input, "Empty");
+        // if(pageText==7) {
+        // home.add(new BattleScreen().page(), "BattleScreen");
+        // mainCard.show(home, "BattleScreen");
+        // }
+        // }
+        // });
 
         name.addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e){
+            public void keyTyped(KeyEvent e) {
                 nextBtn.setVisible(true);
             }
         });
 
         backBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(pageText == 1) return;
+                if (pageText == 1)
+                    return;
                 pageText--;
-                if(pageText == 1){
+                if (pageText == 1) {
                     backBtn.setVisible(false);
                     cardText.show(text, String.format("Text%d", pageText));
                     return;
                 }
                 backBtn.setVisible(true);
                 cardText.show(text, String.format("Text%d", pageText));
-                if(pageText==5) cardInput.show(input, "InputName");
-                else cardInput.show(input, "Empty");
-                if(pageText==7) {
-                    home.add(new BattleScreen().page(), "BattleScreen");
+                if (pageText == 5)
+                    cardInput.show(input, "InputName");
+                else
+                    cardInput.show(input, "Empty");
+                if (pageText == 7) {
+                    home.add(new BattleScreen(newUser).page(), "BattleScreen");
                     mainCard.show(home, "BattleScreen");
                 }
             }
@@ -265,26 +279,31 @@ public class NewGame {
 
         nextBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(pageText == 5){
-                    User newUser = new User(name.getText());
+                System.out.println("page:" + pageText);
+                if (pageText == 5) {
+                    System.out.println("ambil nama");
+                    newUser = new User(name.getText());
+                    textName(newUser.getName());
                 }
+
                 pageText++;
+                System.out.println("nambah jadi" + pageText);
                 backBtn.setVisible(true);
                 cardText.show(text, String.format("Text%d", pageText));
-                if(pageText==5){
+                if (pageText == 5) {
+                    System.out.println("Page 5");
                     cardInput.show(input, "InputName");
-                    if(name.getText().isEmpty()){
+                    if (name.getText().isEmpty()) {
                         nextBtn.setVisible(false);
-                    } else{
+                    } else {
                         nextBtn.setVisible(true);
                     }
-                }
-                else{
+                } else {
                     cardInput.show(input, "Empty");
                     nextBtn.setVisible(true);
                 }
-                if(pageText==7) {
-                    home.add(new BattleScreen().page(), "BattleScreen");
+                if (pageText == 7) {
+                    home.add(new BattleScreen(newUser).page(), "BattleScreen");
                     mainCard.show(home, "BattleScreen");
                 }
             }
@@ -293,4 +312,22 @@ public class NewGame {
         return main;
 
     }
+
+    private void textName(String name) {
+        JPanel text6 = new JPanel();
+        text6.setPreferredSize(new Dimension(1050, 200));
+        String s = String.format(
+                "<html><div style='width:1100px;'>Nice to meet you %s!<br>Now, it's time to choose your first Charmon companion!</div></html>",
+                name);
+        JLabel ntmy = new JLabel(s);
+        ntmy.setFont(new Font("Courier New", Font.BOLD, 20));
+        ntmy.setBorder(new EmptyBorder(0, 50, 30, 50));
+        ntmy.setPreferredSize(new Dimension(1100, 200));
+        // text6.setBackground(new Color(235, 213, 200));
+        // text6.setLayout(new FlowLayout(FlowLayout.CENTER));
+        text6.setOpaque(false);
+        text6.add(ntmy, BorderLayout.CENTER);
+        text.add(text6, "Text6");
+    }
+
 }

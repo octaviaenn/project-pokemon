@@ -35,6 +35,10 @@ public class Charmon {
         return health;
     }
 
+    public int getHP() {
+        return hp;
+    }
+
     public void setHealth(int health) { // Setter for health (needed for healing)
         this.health += health;
     }
@@ -43,7 +47,7 @@ public class Charmon {
         return attack;
     }
 
-    public void setAttack(int attack){
+    public void setAttack(int attack) {
         this.attack += attack;
     }
 
@@ -60,17 +64,18 @@ public class Charmon {
     }
 
     public String getImage() {
-        return image+"-front.gif";
+        return image + "-front.gif";
     }
 
-    public String getBackImage(){
-        return image+"-back.gif";
+    public String getBackImage() {
+        return image + "-back.gif";
     }
 
     public void attack(Charmon target, Move move) {
         int damage = Battle.calculateDamage(this, move, target);
         target.takeDamage(damage);
-        System.out.println(this.name + " used " + move.getName() + " on " + target.getName() + " for " + damage + " damage!");
+        System.out.println(
+                this.name + " used " + move.getName() + " on " + target.getName() + " for " + damage + " damage!");
     }
 
     public void takeDamage(int damage) {
@@ -80,10 +85,12 @@ public class Charmon {
         }
     }
 
-    public void heal(boolean flag){
+    public void heal(boolean flag) {
         // false buat opponent, true buat potion
-        if(flag == false) health = hp;
-        else health = (int) Math.max(hp, health*1.5);
+        if (flag == false)
+            health = hp;
+        else
+            health = (int) Math.max(hp, health * 1.5);
     }
 
     public boolean isFainted() {

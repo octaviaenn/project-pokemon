@@ -17,12 +17,13 @@ public class BattleScreen {
     private int pageText = 1;
     private int runCount = 0;
     private String setText = "You had arrived in a battle arena.";
+    private User user;
 
-    public BattleScreen(){
-
+    public BattleScreen(User user) {
+        this.user = user;
     }
 
-    public JPanel page(){
+    public JPanel page() {
 
         JPanel main = new JPanel();
 
@@ -36,9 +37,9 @@ public class BattleScreen {
         battleBg.setPreferredSize(new Dimension(1400, 750));
         battleBg.setLayout(null);
 
-//        JPanel enemyPanel = new JPanel();
-//        enemyPanel.setBounds(775, 0, 500, 300);
-//        enemyPanel.setOpaque(false);
+        // JPanel enemyPanel = new JPanel();
+        // enemyPanel.setBounds(775, 0, 500, 300);
+        // enemyPanel.setOpaque(false);
 
         BufferedImage optImage = null;
         try {
@@ -57,37 +58,37 @@ public class BattleScreen {
         JPanel enemyCard = new JPanel(cardEnemy);
         enemyCard.setBounds(775, 25, 500, 225);
         battleBg.add(enemyCard);
-        //enemy.setOpaque(false);
-        //CardLayout cardEstat = new CardLayout();
+        // enemy.setOpaque(false);
+        // CardLayout cardEstat = new CardLayout();
 
-//        enemyPanel.add(enemyCard);
-//        //enemyPanel.add(enemyStat);
-//        battleBg.add(enemyPanel);
+        // enemyPanel.add(enemyCard);
+        // //enemyPanel.add(enemyStat);
+        // battleBg.add(enemyPanel);
 
-//        JPanel playerPanel = new JPanel();
-//        playerPanel.setBounds(75, 300, 500, 300);
-//        playerPanel.setOpaque(false);
+        // JPanel playerPanel = new JPanel();
+        // playerPanel.setBounds(75, 300, 500, 300);
+        // playerPanel.setOpaque(false);
 
         CardLayout cardPlayer = new CardLayout();
         JPanel playerCard = new JPanel(cardPlayer);
         playerCard.setBounds(75, 250, 500, 225);
         battleBg.add(playerCard);
-        //player.setBackground(Color.white);
-        //CardLayout cardPstat = new CardLayout();
+        // player.setBackground(Color.white);
+        // CardLayout cardPstat = new CardLayout();
 
-//        playerPanel.add(playerCard);
-//        //playerPanel.add(playerStat);
-//        battleBg.add(playerPanel);
+        // playerPanel.add(playerCard);
+        // //playerPanel.add(playerStat);
+        // battleBg.add(playerPanel);
 
         CardLayout cardText = new CardLayout();
         TransparentPanel text = new TransparentPanel("assets\\text.png");
         text.setLayout(cardText);
         text.setBounds(75, 500, 1200, 200);
-        //text.setOpaque(false);
+        // text.setOpaque(false);
         battleBg.add(text);
 
         JPanel enemy = new JPanel(null);
-        //enemy.setBackground(Color.black);
+        // enemy.setBackground(Color.black);
         enemy.setOpaque(false);
         JPanel enemyStat = new JPanel();
         enemyStat.setBounds(0, 0, 450, 75);
@@ -95,24 +96,37 @@ public class BattleScreen {
         enemy.add(enemyStat);
         enemyCard.add(enemy, "Enemy");
 
-        ImageIcon enemyIcon = new ImageIcon("assets\\charmon\\pikachu-front.gif");
+        ImageIcon enemyIcon = new ImageIcon("assets\\ezgif.com-optimize.gif");
         JLabel enemyLabel = new JLabel(enemyIcon);
+        enemyLabel.setOpaque(false);
+        enemyLabel.setBounds(50, 100, enemyIcon.getIconWidth(),
+                enemyIcon.getIconHeight());
+        // // Make sure it's transparent
+
+        // GifPanel enemyLabel = new GifPanel("/charmon/pikachu-front.gif");
+
         enemy.add(enemyLabel);
 
+        Charmon chara = user.getCurrentChar();
+
         JPanel player = new JPanel(null);
-        //player.setBackground(Color.black);
+        // player.setBackground(Color.black);
         player.setOpaque(false);
         JPanel playerStat = new JPanel();
         playerStat.setBounds(50, 150, 450, 75);
         playerStat.setBackground(new Color(235, 213, 200));
         player.add(playerStat);
-        playerCard.add(player, "Player");
-
         ImageIcon playerIcon = new ImageIcon("assets\\charmon\\pikachu-back.gif");
         JLabel playerLabel = new JLabel(playerIcon);
+        playerLabel.setOpaque(false);
+        playerLabel.setBounds(50, 50, playerIcon.getIconWidth(),
+                playerIcon.getIconHeight()); // Make sure it's transparent
+        // GifPanel playerLabel = new GifPanel(
+        // "/charmon/pikachu-back.gif");
         player.add(playerLabel);
+        playerCard.add(player, "Player");
 
-        //CardLayout cardNext = new CardLayout();
+        // CardLayout cardNext = new CardLayout();
         BufferedImage nextImage = null;
         try {
             nextImage = ImageIO.read(new File("assets\\next-btn.png"));
@@ -127,16 +141,16 @@ public class BattleScreen {
         nextBtn.setBackground(Color.black);
         battleBg.add(nextBtn);
 
-//        JPanel nextVis = new JPanel();
-//        nextVis.setBackground(Color.black);
-////        JButton next = new JButton("Next");
-////        next.setBounds(1300, 600, 30, 30);
-////        nextVis.add(next);
-//        nextBtn.add(nextVis, "Visible");
+        // JPanel nextVis = new JPanel();
+        // nextVis.setBackground(Color.black);
+        //// JButton next = new JButton("Next");
+        //// next.setBounds(1300, 600, 30, 30);
+        //// nextVis.add(next);
+        // nextBtn.add(nextVis, "Visible");
 
-//        JPanel notAvail = new JPanel();
-//        notAvail.setOpaque(false);
-//        nextBtn.add(notAvail, "Not");
+        // JPanel notAvail = new JPanel();
+        // notAvail.setOpaque(false);
+        // nextBtn.add(notAvail, "Not");
 
         JPanel text1 = new JPanel();
         text1.setPreferredSize(new Dimension(1050, 200));
@@ -164,10 +178,10 @@ public class BattleScreen {
         JLabel playerDo = new JLabel("What will (chara) do?");
         playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
         playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
-        playerDo.setBounds(65, 95, 700, 20);
-        //ImageIcon fightImage = new ImageIcon("assets\\fight.png");
-        //ImageIcon runImage = new ImageIcon("assets\\run.png");
-        //ImageIcon healImage = new ImageIcon("assets\\heal.png");
+        // playerDo.setBounds(65, 95, 700, 20);
+        // ImageIcon fightImage = new ImageIcon("assets\\fight.png");
+        // ImageIcon runImage = new ImageIcon("assets\\run.png");
+        // ImageIcon healImage = new ImageIcon("assets\\heal.png");
         BufferedImage fightImage = null;
         try {
             fightImage = ImageIO.read(new File("assets\\fight.png"));
@@ -176,7 +190,7 @@ public class BattleScreen {
         }
         Image f = fightImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JButton fight = new JButton(new ImageIcon(f));
-        //JButton fight = new JButton(fightImage);
+        // JButton fight = new JButton(fightImage);
         BufferedImage runImage = null;
         try {
             runImage = ImageIO.read(new File("assets\\run.png"));
@@ -185,7 +199,7 @@ public class BattleScreen {
         }
         Image r = runImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JButton run = new JButton(new ImageIcon(r));
-        //JButton run = new JButton(runImage);
+        // JButton run = new JButton(runImage);
         BufferedImage healImage = null;
         try {
             healImage = ImageIO.read(new File("assets\\heal.png"));
@@ -194,7 +208,7 @@ public class BattleScreen {
         }
         Image h = healImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JButton heal = new JButton(new ImageIcon(h));
-        //JButton heal = new JButton(healImage);
+        // JButton heal = new JButton(healImage);
         fight.setBorderPainted(false);
         fight.setContentAreaFilled(false);
         run.setBorderPainted(false);
@@ -211,31 +225,34 @@ public class BattleScreen {
         text3.add(heal);
         text.add(text3, "Text3");
 
-//        text.addMouseListener(new MouseAdapter() {
-//            public void mouseClicked(MouseEvent e) {
-//                pageText++;
-//                cardText.show(text, String.format("Text%d", pageText));
-//            }
-//        });
+        // text.addMouseListener(new MouseAdapter() {
+        // public void mouseClicked(MouseEvent e) {
+        // pageText++;
+        // cardText.show(text, String.format("Text%d", pageText));
+        // }
+        // });
 
         nextBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 pageText++;
                 cardText.show(text, String.format("Text%d", pageText));
-                if(pageText == 3) nextBtn.setVisible(false);
-                else nextBtn.setVisible(true);
+                if (pageText == 3)
+                    nextBtn.setVisible(false);
+                else
+                    nextBtn.setVisible(true);
             }
         });
 
         JPanel optionPanel = new JPanel();
-        optionPanel.setPreferredSize(new Dimension(1000, 400));
+        // optionPanel.setOpaque(false);
+        optionPanel.setPreferredSize(new Dimension(300, 300));
         BufferedImage resumeImage = null;
         try {
             resumeImage = ImageIO.read(new File("assets\\resume.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image res = resumeImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        Image res = resumeImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
         JButton resume = new JButton(new ImageIcon(res));
 
         BufferedImage quitImage = null;
@@ -244,49 +261,56 @@ public class BattleScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image qu = quitImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
+        Image qu = quitImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
         JButton quit = new JButton(new ImageIcon(qu));
-//        ImageIcon resumeImage = new ImageIcon("assets\\resume.png");
-//        ImageIcon quitImage = new ImageIcon("assets\\quit.png");
-//        JButton resume = new JButton(resumeImage);
-//        JButton quit = new JButton(quitImage);
+        // ImageIcon resumeImage = new ImageIcon("assets\\resume.png");
+        // ImageIcon quitImage = new ImageIcon("assets\\quit.png");
+        // JButton resume = new JButton(resumeImage);
+        // JButton quit = new JButton(quitImage);
         resume.setBorderPainted(false);
         resume.setContentAreaFilled(false);
         quit.setBorderPainted(false);
         quit.setContentAreaFilled(false);
-        optionPanel.add(resume);
-        optionPanel.add(quit);
 
-        JOptionPane optionSetting = new JOptionPane(optionPanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
-        JDialog dialogSetting = optionSetting.createDialog("What do you want to do?");
+        resume.setBounds(50, 120, 100, 50);
+        quit.setBounds(50, 200, 100, 50);
+
+        // JOptionPane optionSetting = new JOptionPane(optionPanel,
+        // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
+        // JDialog dialogSetting = optionSetting.createDialog("What do you want to
+        // do?");
+        CustomDialog dialogSetting = new CustomDialog("assets\\popup.png", optionPanel);
+        dialogSetting.addButton(resume);
+        dialogSetting.addButton(quit);
 
         option.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 dialogSetting.setVisible(true);
             }
         });
 
-        resume.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        resume.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dialogSetting.setVisible(false);
             }
         });
 
-        quit.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                //nanti nyimpen state sama manggil home
+        quit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // nanti nyimpen state sama manggil home
             }
         });
 
         JPanel movePanel = new JPanel(new BorderLayout());
-        movePanel.setPreferredSize(new Dimension(1000, 400));
+        // movePanel.setOpaque(false);
+        movePanel.setPreferredSize(new Dimension(300, 300));
         BufferedImage westImage = null;
         try {
             westImage = ImageIO.read(new File("assets\\west-btn.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image w = westImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image w = westImage.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
         JButton west = new JButton(new ImageIcon(w));
 
         BufferedImage northImage = null;
@@ -295,7 +319,7 @@ public class BattleScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image n = northImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image n = northImage.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
         JButton north = new JButton(new ImageIcon(n));
 
         BufferedImage eastImage = null;
@@ -304,7 +328,7 @@ public class BattleScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image ea = eastImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image ea = eastImage.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
         JButton east = new JButton(new ImageIcon(ea));
 
         BufferedImage southImage = null;
@@ -313,17 +337,17 @@ public class BattleScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image s = southImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image s = southImage.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
         JButton south = new JButton(new ImageIcon(s));
 
-//        ImageIcon w = new ImageIcon("assets\\west-btn.png");
-//        ImageIcon n = new ImageIcon("assets\\north-btn.png");
-//        ImageIcon e = new ImageIcon("assets\\east-btn.png");
-//        ImageIcon s = new ImageIcon("assets\\south-btn.png");
-//        JButton west = new JButton(w);
-//        JButton north = new JButton(n);
-//        JButton east = new JButton(e);
-//        JButton south = new JButton(s);
+        // ImageIcon w = new ImageIcon("assets\\west-btn.png");
+        // ImageIcon n = new ImageIcon("assets\\north-btn.png");
+        // ImageIcon e = new ImageIcon("assets\\east-btn.png");
+        // ImageIcon s = new ImageIcon("assets\\south-btn.png");
+        // JButton west = new JButton(w);
+        // JButton north = new JButton(n);
+        // JButton east = new JButton(e);
+        // JButton south = new JButton(s);
         west.setBorderPainted(false);
         west.setContentAreaFilled(false);
         north.setBorderPainted(false);
@@ -333,17 +357,24 @@ public class BattleScreen {
         south.setBorderPainted(false);
         south.setContentAreaFilled(false);
         JLabel move = new JLabel("Move");
-        movePanel.add(west, BorderLayout.WEST);
-        movePanel.add(north, BorderLayout.NORTH);
-        movePanel.add(east, BorderLayout.EAST);
-        movePanel.add(south, BorderLayout.SOUTH);
-        movePanel.add(move, BorderLayout.CENTER);
+        west.setBounds(30, 140, 75, 75);
+        north.setBounds(110, 90, 75, 75);
+        move.setBounds(120, 140, 60, 20);
+        east.setBounds(195, 140, 75, 75);
+        south.setBounds(110, 200, 75, 75);
 
-        JOptionPane optionMove = new JOptionPane(movePanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
-        JDialog dialogMove = optionMove.createDialog("Choose where u want to go");
+        // JOptionPane optionMove = new JOptionPane(movePanel,
+        // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
+        // JDialog dialogMove = optionMove.createDialog("Choose where u want to go");
+        CustomDialog dialogMove = new CustomDialog("assets\\popup.png", movePanel);
+        dialogMove.addButton(west);
+        dialogMove.addButton(north);
+        dialogMove.addButton(east);
+        dialogMove.addButton(south);
+        dialogMove.addLabel(move);
 
-        west.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        west.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dialogMove.setVisible(false);
                 runCount = 0;
                 pageText = 1;
@@ -353,8 +384,8 @@ public class BattleScreen {
             }
         });
 
-        north.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        north.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dialogMove.setVisible(false);
                 runCount = 0;
                 pageText = 1;
@@ -364,8 +395,8 @@ public class BattleScreen {
             }
         });
 
-        east.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        east.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dialogMove.setVisible(false);
                 runCount = 0;
                 pageText = 1;
@@ -375,8 +406,8 @@ public class BattleScreen {
             }
         });
 
-        south.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        south.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dialogMove.setVisible(false);
                 runCount = 0;
                 pageText = 1;
@@ -387,6 +418,7 @@ public class BattleScreen {
         });
 
         JPanel attackPanel = new JPanel(new GridLayout(3, 1));
+        // attackPanel.setOpaque(false);
         attackPanel.setPreferredSize(new Dimension(300, 300));
         BufferedImage basicImage = null;
         try {
@@ -414,59 +446,71 @@ public class BattleScreen {
         }
         Image el = elementalImage.getScaledInstance(150, 75, Image.SCALE_SMOOTH);
         JButton elemental = new JButton(new ImageIcon(el));
-//        ImageIcon basicImage = new ImageIcon("assets\\basic.png");
-//        ImageIcon specialImage = new ImageIcon("assets\\special.png");
-//        ImageIcon elementalImage = new ImageIcon("assets\\elemental.png");
-//        JButton basic = new JButton("basic");
-//        JButton special = new JButton("special");
-//        JButton elemental = new JButton("elemental");
+        // ImageIcon basicImage = new ImageIcon("assets\\basic.png");
+        // ImageIcon specialImage = new ImageIcon("assets\\special.png");
+        // ImageIcon elementalImage = new ImageIcon("assets\\elemental.png");
+        // JButton basic = new JButton("basic");
+        // JButton special = new JButton("special");
+        // JButton elemental = new JButton("elemental");
         basic.setBorderPainted(false);
         basic.setContentAreaFilled(false);
         special.setBorderPainted(false);
         special.setContentAreaFilled(false);
         elemental.setBorderPainted(false);
         elemental.setContentAreaFilled(false);
-        attackPanel.add(basic);
-        attackPanel.add(special);
-        attackPanel.add(elemental);
 
-        JOptionPane optionAttack = new JOptionPane(attackPanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
-        JDialog dialogAttack = optionAttack.createDialog("Choose your attack!");
+        basic.setBounds(10, 80, 150, 75);
+        special.setBounds(10, 160, 150, 75);
+        elemental.setBounds(10, 240, 150, 75);
 
-        fight.addActionListener(new ActionListener(){
+        // JOptionPane optionAttack = new JOptionPane(attackPanel,
+        // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
+        // JDialog dialogAttack = optionAttack.createDialog("Choose your attack!");
+        CustomDialog dialogAttack = new CustomDialog("assets\\popup.png", attackPanel);
+        dialogAttack.addButton(basic);
+        dialogAttack.addButton(special);
+        dialogAttack.addButton(elemental);
+
+        fight.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 dialogAttack.setVisible(true);
 
                 // animation dulu, jalanin battlenya, nanti tanya mau lanjut apa exit
                 // janlup page balikin 1
-                //dialogMove.setVisible(true);
+                // dialogMove.setVisible(true);
             }
         });
 
-        run.addActionListener(new ActionListener(){
+        run.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 runCount++;
-                if(runCount > 3){
+                if (runCount > 3) {
                     JOptionPane.showMessageDialog(Main.frame, "You can't run more than 3 times!");
-                } else{
+                } else {
                     dialogMove.setVisible(true);
                 }
             }
         });
 
-        heal.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        heal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chara.heal(true);
+                Sound.play("assets\\sound\\heal.wav");
+            }
+        });
+
+        basic.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-
-
-
         return main;
     }
 
-    public static CardLayout getCard(){ return card;}
+    public static CardLayout getCard() {
+        return card;
+    }
 
 }
