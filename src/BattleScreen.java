@@ -25,6 +25,7 @@ public class BattleScreen {
     private String messageLabel; // To display battle messages like "Pikachu used Thunderbolt!"
     private Charmon player, enemy;
     private JPanel buttonPanel;
+    public static CustomDialog dialogAttack;
 
     public BattleScreen(User user) {
         this.user = user;
@@ -74,8 +75,8 @@ public class BattleScreen {
                                     // messageLabel.setText("Your turn!");
                                     JPanel playerTurn = textOption("It's your turn!");
                                     text.add(playerTurn, "Player");
-                                    cardText.show(text, "Player");
                                     buttonPanel.setVisible(true);
+                                    cardText.show(text, "Player");
                                     // setButtonsEnabled(true); // Re-enable player buttons
                                 }
                             }
@@ -569,7 +570,7 @@ public class BattleScreen {
         // JOptionPane optionAttack = new JOptionPane(attackPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogAttack = optionAttack.createDialog("Choose your attack!");
-        CustomDialog dialogAttack = new CustomDialog("assets\\popup.png");
+        dialogAttack = new CustomDialog("assets\\popup.png");
         dialogAttack.addButton(basic);
         dialogAttack.addButton(special);
         dialogAttack.addButton(elemental);
@@ -597,6 +598,7 @@ public class BattleScreen {
         heal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 player.heal(true);
+
                 Sound.play("assets\\sound\\heal.wav");
                 currentBattle.getPlayerHpChange().run();
             }
@@ -692,6 +694,10 @@ public class BattleScreen {
         panel.add(enemyLabel);
         panel.add(enemyStat);
         return panel;
+    }
+
+    public static CustomDialog getDialogAttack() {
+        return dialogAttack;
     }
 
 }

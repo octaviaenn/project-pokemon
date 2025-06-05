@@ -101,6 +101,8 @@ public class Battle {
     private void endBattle() {
         JPanel home = Onboard.getHome();
         CardLayout mainCard = Onboard.getCard();
+        CustomDialog dialogAttack = BattleScreen.getDialogAttack();
+        dialogAttack.setVisible(false);
         if (player.isFainted()) {
             System.out.println("You lose!");
             CustomDialog dialogLose = new CustomDialog("assets\\popup-result.png");
@@ -108,8 +110,8 @@ public class Battle {
             // textLose.setFont("Verdana");
             textLose.setBounds(100, 150, 200, 100);
             dialogLose.addLabel(textLose);
-            dialogLose.setVisible(true);
             Sound.play("assets\\sound\\lose.wav");
+            dialogLose.setVisible(true);
             mainCard.show(home, "Onboard");
             // nanti tambahin bgm lose, popup-result, terus data kereset/keapus aja,
             // langsung quit
@@ -120,8 +122,8 @@ public class Battle {
             // textWin.setFont("Verdana");
             textWin.setBounds(100, 150, 200, 100);
             dialogWin.addLabel(textWin);
-            dialogWin.setVisible(true);
             Sound.play("assets\\sound\\win.wav");
+            dialogWin.setVisible(true);
             // tambahin bgm win, popup-result win
             user.win();
             // kalo jumlahnya sesuai itu yaudah popup-result naik level suara dll
@@ -164,6 +166,7 @@ public class Battle {
             // textLevel.setFont("Verdana");
             levelUp.setBounds(100, 150, 200, 100);
             dialogLevel.addLabel(levelUp);
+            Sound.play("assets\\sound\\level-up.wav");
             dialogLevel.setVisible(true);
         }
         // Heal both Charmons after battle for next engagement
@@ -177,7 +180,7 @@ public class Battle {
     // Make calculateDamage public static if it's not already
     public static int calculateDamage(Charmon attacker, Move move, Charmon defender) {
         double effectiveness = getTypeEffectiveness(move.getType(), defender.getType());
-        int damage = (int) ((move.getPower() * attacker.getAttack() / defender.getDefense()) * effectiveness);
+        int damage = (int) ((move.getPower() * attacker.getAttack() / defender.getDefense()) * effectiveness / 7);
         return Math.max(1, damage); // Ensure min 1 damage
     }
 
