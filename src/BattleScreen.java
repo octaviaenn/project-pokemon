@@ -35,7 +35,7 @@ public class BattleScreen {
         buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(400, 200));
         buttonPanel.setBounds(600, 0, 400, 200);
-        buttonPanel.setVisible(false);
+        buttonPanel.setVisible(true);
         // In BattleScreen constructor, after Charmon objects are ready
         currentBattle = new Battle(user, player,
                 // onPlayerHpChange callback
@@ -133,7 +133,8 @@ public class BattleScreen {
         CardLayout cardEnemy = new CardLayout();
         JPanel enemyCard = new JPanel();
         enemyCard.setLayout(cardEnemy);
-        enemyCard.setBounds(300, 25, 900, 225);
+        enemyCard.setOpaque(false);
+        enemyCard.setBounds(300, 25, 900, 300);
         battleBg.add(enemyCard);
         // enemy.setOpaque(false);
         // CardLayout cardEstat = new CardLayout();
@@ -175,13 +176,13 @@ public class BattleScreen {
         playerPanel.setOpaque(false);
         TransparentPanel playerStat = new TransparentPanel("assets\\player-box.png");
         playerStat.setLayout(null);
-        playerHealthBar.setBounds(50, 30, 200, 30);
+        playerHealthBar.setBounds(50, 35, 200, 30);
         playerStat.add(playerHealthBar);
         playerStat.setBounds(500, 300, 300, 100);
         JLabel playerName = new JLabel(player.getName());
         JLabel playerLvl = new JLabel(String.format("Level %d", user.getLevel()));
         playerName.setBounds(50, 10, 150, 30);
-        playerLvl.setBounds(250, 10, 150, 30);
+        playerLvl.setBounds(200, 10, 150, 30);
         playerStat.add(playerName);
         playerStat.add(playerLvl);
         // playerStat.setBackground(new Color(235, 213, 200));
@@ -256,7 +257,7 @@ public class BattleScreen {
         // ImageIcon runImage = new ImageIcon("assets\\run.png");
         // ImageIcon healImage = new ImageIcon("assets\\heal.png");
         JPanel text3 = textOption(String.format("What will %s do?", user.getCurrentChar().getName()));
-        text3.setPreferredSize(new Dimension(1050, 200));
+        // text3.setPreferredSize(new Dimension(1050, 200));
         BufferedImage fightImage = null;
         try {
             fightImage = ImageIO.read(new File("assets\\fight.png"));
@@ -298,10 +299,13 @@ public class BattleScreen {
         // text3.add(playerDo);
         // JButton p = new JButton("y");
         // text3.add(p);
+        buttonPanel.setLayout(null);
+        buttonPanel.add(fight);
+        buttonPanel.add(run);
+        buttonPanel.add(heal);
+        buttonPanel.setOpaque(false);
         text3.add(buttonPanel);
-        // text3.add(fight);
-        // text3.add(run);
-        // text3.add(heal);
+
         text.add(text3, "Text3");
 
         // text.addMouseListener(new MouseAdapter() {
@@ -669,11 +673,11 @@ public class BattleScreen {
         enemyStat.setLayout(null);
         enemyHealthBar.setBounds(50, 60, 200, 30);
         enemyStat.add(enemyHealthBar);
-        enemyStat.setBounds(0, 0, 300, 100);
+        enemyStat.setBounds(250, 100, 300, 100);
         JLabel enemyName = new JLabel(enemy.getName());
         JLabel enemyLvl = new JLabel(String.format("Level %d", user.getLevel()));
         enemyName.setBounds(50, 30, 150, 30);
-        enemyLvl.setBounds(250, 30, 150, 30);
+        enemyLvl.setBounds(200, 30, 150, 30);
         enemyStat.add(enemyName);
         enemyStat.add(enemyLvl);
         // panel.add(enemyHealthBar);
@@ -683,7 +687,7 @@ public class BattleScreen {
         ImageIcon enemyIcon = new ImageIcon(enemy.getImage());
         JLabel enemyLabel = new JLabel(enemyIcon);
         enemyLabel.setOpaque(false);
-        enemyLabel.setBounds(400, 0, enemyIcon.getIconWidth(),
+        enemyLabel.setBounds(600, 0, enemyIcon.getIconWidth(),
                 enemyIcon.getIconHeight());
         panel.add(enemyLabel);
         panel.add(enemyStat);
