@@ -220,14 +220,15 @@ public class NewGame {
         input.add(empty, "Empty");
 
         TransparentPanel inputBox = new TransparentPanel("assets\\player-box.png");
+        inputBox.setBounds(200, 200, 300, 100);
         // inputBox.setLayout(null);
-        JPanel inputName = new JPanel();
+        JPanel inputName = new JPanel(null);
         inputName.setBounds(0, 0, 700, 500);
         JLabel nameText = new JLabel("Enter your name here");
         JTextField name = new JTextField();
         name.setOpaque(false);
         name.setPreferredSize(new Dimension(270, 60));
-        name.setBounds(15, 20, 270, 60);
+        name.setBounds(30, 50, 200, 50);
         // name.setBorder(new EmptyBorder(0, 15, 30, 15));
         inputName.setOpaque(false);
         inputBox.add(name);
@@ -284,6 +285,9 @@ public class NewGame {
                     System.out.println("ambil nama");
                     newUser = new User(name.getText());
                     textName(newUser.getName());
+                    newUser.setCurrentChar("Pikachu");
+                    home.add(new BattleScreen(newUser).page(), "BattleScreen");
+                    System.out.println("INI ISIIIIII" + newUser.getCurrentChar());
                 }
 
                 pageText++;
@@ -303,7 +307,6 @@ public class NewGame {
                     nextBtn.setVisible(true);
                 }
                 if (pageText == 7) {
-                    home.add(new BattleScreen(newUser).page(), "BattleScreen");
                     mainCard.show(home, "BattleScreen");
                 }
             }

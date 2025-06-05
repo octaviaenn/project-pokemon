@@ -31,8 +31,8 @@ public class Onboard {
         // GridBagConstraints c = new GridBagConstraints();
 
         JLabel title = new JLabel("LET'S PLAY CHARMON!");
-        title.setFont(new Font("Impact", Font.BOLD, 30));
-        title.setBounds(650, 100, 500, 50);
+        title.setFont(new Font("Impact", Font.BOLD, 40));
+        title.setBounds(450, 100, 500, 50);
         // c.gridx = 0;
         // c.gridy = 0;
         // c.gridwidth = 2;

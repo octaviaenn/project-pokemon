@@ -5,7 +5,7 @@ public class Character {
 
     private static List<Charmon> chara = new ArrayList<>();
 
-    public static void define(){
+    public static void define() {
         Charmon pikachu = new Charmon("Pikachu", Type.ELECTRIC, 35, 55, 40, "assets\\charmon\\pikachu");
         pikachu.addMove(new Move("Quick Attack", Type.NORMAL, 40));
         pikachu.addMove(new Move("Flame Wheel", Type.FIRE, 60));
@@ -98,13 +98,19 @@ public class Character {
 
     }
 
-    public static Charmon findRandom(Charmon player){
+    public static Charmon findRandom(Charmon player) {
         Charmon enemy;
-        do{
-            int index = (int) Math.round(Math.random()*15);
+        do {
+            int index = (int) Math.round(Math.random() * 15);
+            if (index == 15)
+                index--;
             enemy = chara.get(index);
-        } while(enemy==player);
+        } while (enemy == player);
         return enemy;
+    }
+
+    public static List<Charmon> getChara() {
+        return chara;
     }
 
 }

@@ -64,11 +64,11 @@ public class Charmon {
     }
 
     public String getImage() {
-        return image + "-front.gif";
+        return image + "-f.gif";
     }
 
     public String getBackImage() {
-        return image + "-back.gif";
+        return image + "-b.gif";
     }
 
     public void attack(Charmon target, Move move) {

@@ -1,4 +1,7 @@
 import javax.swing.*; // Needed for SwingUtilities.invokeLater
+import java.awt.*;
+import javafx.scene.text.Font;
+
 import java.util.ArrayList; // Assuming Charmon and Move are in the same package or imported
 // Import Charmon.Type and Charmon.Move if they are inner classes as shown above
 // import static Charmon.Type.*; // Static import for easier type access
@@ -12,11 +15,12 @@ public class Battle {
     private Runnable onEnemyHpChange;
     private Runnable onTurnEnd; // To signal BattleScreen to move to next turn/check status
     private Runnable onBattleEnd; // To signal BattleScreen battle is over
-
+    private User user;
     private boolean isPlayerTurn = true; // To manage whose turn it is
 
-    public Battle(Charmon player, Runnable onPlayerHpChange, Runnable onEnemyHpChange, Runnable onTurnEnd,
+    public Battle(User user, Charmon player, Runnable onPlayerHpChange, Runnable onEnemyHpChange, Runnable onTurnEnd,
             Runnable onBattleEnd) {
+        this.user = user;
         this.player = player;
         this.enemy = Character.findRandom(player); // Assuming Character.findRandom exists
 
@@ -26,6 +30,10 @@ public class Battle {
         this.onBattleEnd = onBattleEnd;
 
         System.out.println("A battle begins between " + player.getName() + " and " + enemy.getName() + "!");
+    }
+
+    public void changeEnemy() {
+        enemy = Character.findRandom(player);
     }
 
     // Method to initiate a player's turn from the GUI
@@ -52,8 +60,10 @@ public class Battle {
             return; // Not enemy's turn or battle is over
         }
 
-        // Enemy AI: for simplicity, always use the first move
-        turn(enemy, player, 0);
+        int random = (int) Math.round(Math.random() * 3);
+        if (random == 3)
+            random--;
+        turn(enemy, player, random);
         onPlayerHpChange.run(); // Notify GUI to update player HP bar
 
         if (player.isFainted()) {
@@ -68,14 +78,93 @@ public class Battle {
     private void turn(Charmon attacker, Charmon defender, int indexAttack) {
         // (Simplified) Choose a move
         Move chosenMove = attacker.getMoves().get(indexAttack);
+        switch (chosenMove.getType()) {
+            case FIRE:
+                Sound.play("assets\\sound\\fire.wav");
+                break;
+            case WATER:
+                Sound.play("assets\\sound\\water.wav");
+                break;
+            case GRASS:
+                Sound.play("assets\\sound\\grass.wav");
+                break;
+            case NORMAL:
+                Sound.play("assets\\sound\\normal.wav");
+                break;
+            case ELECTRIC:
+                Sound.play("assets\\sound\\electric.wav");
+                break;
+        }
         attacker.attack(defender, chosenMove); // Charmon.attack now calls defender.takeDamage
     }
 
     private void endBattle() {
+        JPanel home = Onboard.getHome();
+        CardLayout mainCard = Onboard.getCard();
         if (player.isFainted()) {
             System.out.println("You lose!");
+            CustomDialog dialogLose = new CustomDialog("assets\\popup-result.png");
+            JLabel textLose = new JLabel("YOU LOSE..");
+            // textLose.setFont("Verdana");
+            textLose.setBounds(100, 150, 200, 100);
+            dialogLose.addLabel(textLose);
+            dialogLose.setVisible(true);
+            Sound.play("assets\\sound\\lose.wav");
+            mainCard.show(home, "Onboard");
+            // nanti tambahin bgm lose, popup-result, terus data kereset/keapus aja,
+            // langsung quit
         } else {
             System.out.println(player.getName() + " wins!");
+            CustomDialog dialogWin = new CustomDialog("assets\\popup-result.png");
+            JLabel textWin = new JLabel("YOU WIN!!");
+            // textWin.setFont("Verdana");
+            textWin.setBounds(100, 150, 200, 100);
+            dialogWin.addLabel(textWin);
+            dialogWin.setVisible(true);
+            Sound.play("assets\\sound\\win.wav");
+            // tambahin bgm win, popup-result win
+            user.win();
+            // kalo jumlahnya sesuai itu yaudah popup-result naik level suara dll
+            String reach = "You have reached level ";
+            String levelText = "";
+            switch (user.getVictoryCount()) {
+                case 1:
+                    levelText = reach + "2";
+                    break;
+                case 3:
+                    levelText = reach + "3";
+                    break;
+                case 6:
+                    levelText = reach + "4";
+                    break;
+                case 10:
+                    levelText = reach + "5";
+                    break;
+                case 15:
+                    levelText = reach + "6";
+                    break;
+                case 21:
+                    levelText = reach + "7";
+                    break;
+                case 28:
+                    levelText = reach + "8";
+                    break;
+                case 36:
+                    levelText = reach + "9";
+                    break;
+                case 45:
+                    levelText = "You have reached end level!";
+                    break;
+            }
+            user.addLevel();
+            user.upgradeDamage();
+            user.upgradeHealth();
+            JLabel levelUp = new JLabel(levelText);
+            CustomDialog dialogLevel = new CustomDialog("assets\\popup-result.png");
+            // textLevel.setFont("Verdana");
+            levelUp.setBounds(100, 150, 200, 100);
+            dialogLevel.addLabel(levelUp);
+            dialogLevel.setVisible(true);
         }
         // Heal both Charmons after battle for next engagement
         player.heal(false); // Heal player to full
@@ -115,12 +204,20 @@ public class Battle {
         }
     }
 
+    public Runnable getPlayerHpChange() {
+        return onPlayerHpChange;
+    }
+
     // Getters for Charmons
-    public Charmon getPlayerCharmon() {
+    public Charmon getPlayer() {
         return player;
     }
 
-    public Charmon getEnemyCharmon() {
+    public Charmon getEnemy() {
         return enemy;
+    }
+
+    public boolean getIsPlayer() {
+        return isPlayerTurn;
     }
 }

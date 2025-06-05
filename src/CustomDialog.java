@@ -12,10 +12,10 @@ public class CustomDialog extends JDialog {
     private JFrame frame;
     private JPanel backgroundPanel;
 
-    public CustomDialog(String path, JPanel child) {
-        super(Main.frame, true);
+    public CustomDialog(String path) {
+        super(Main.getFrame(), true);
         setUndecorated(true); // No window border
-        frame = Main.frame;
+        frame = Main.getFrame();
 
         try {
             // Load your custom PNG with transparent background
@@ -32,9 +32,9 @@ public class CustomDialog extends JDialog {
         // Make background transparent
         setBackground(new Color(0, 0, 0, 0));
 
-//        // Allow dragging the dialog
+        // // Allow dragging the dialog
         addMouseListener(new MouseAdapter() {
-            //Point offset;
+            // Point offset;
 
             public void mousePressed(MouseEvent e) {
                 offset = e.getPoint();
@@ -64,9 +64,11 @@ public class CustomDialog extends JDialog {
         backgroundPanel.setLayout(null);
         JButton x = new JButton(new ImageIcon("assets\\x-btn.png"));
         x.setBounds(211, 17, 50, 50);
-        child.setOpaque(false);
+        x.setBorderPainted(false);
+        x.setContentAreaFilled(false);
+        // child.setOpaque(false);
 
-        backgroundPanel.add(child);
+        // backgroundPanel.add(child);
         backgroundPanel.add(x);
         setContentPane(backgroundPanel);
 
@@ -93,22 +95,22 @@ public class CustomDialog extends JDialog {
         return area;
     }
 
-    public void addButton(JButton button){
+    public void addButton(JButton button) {
         backgroundPanel.add(button);
     }
 
-    public void addLabel(JLabel label){
+    public void addLabel(JLabel label) {
         backgroundPanel.add(label);
     }
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame();
-//        frame.setUndecorated(true);
-//        frame.setSize(0, 0);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//
-//        CustomDialog dialog = new CustomDialog(frame);
-//        dialog.setVisible(true);
-//    }
+    // public static void main(String[] args) {
+    // JFrame frame = new JFrame();
+    // frame.setUndecorated(true);
+    // frame.setSize(0, 0);
+    // frame.setLocationRelativeTo(null);
+    // frame.setVisible(true);
+    //
+    // CustomDialog dialog = new CustomDialog(frame);
+    // dialog.setVisible(true);
+    // }
 }
