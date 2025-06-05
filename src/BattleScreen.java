@@ -363,7 +363,7 @@ public class BattleScreen {
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogSetting = optionSetting.createDialog("What do you want to
         // do?");
-        CustomDialog dialogSetting = new CustomDialog("assets\\popup.png");
+        CustomDialog dialogSetting = new CustomDialog("assets\\popup.png", 211, 17);
         dialogSetting.addButton(resume);
         dialogSetting.addButton(quit);
 
@@ -450,7 +450,7 @@ public class BattleScreen {
         // JOptionPane optionMove = new JOptionPane(movePanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogMove = optionMove.createDialog("Choose where u want to go");
-        CustomDialog dialogMove = new CustomDialog("assets\\popup.png");
+        CustomDialog dialogMove = new CustomDialog("assets\\popup.png", 211, 17);
         dialogMove.addButton(west);
         dialogMove.addButton(north);
         dialogMove.addButton(east);
@@ -570,7 +570,7 @@ public class BattleScreen {
         // JOptionPane optionAttack = new JOptionPane(attackPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogAttack = optionAttack.createDialog("Choose your attack!");
-        dialogAttack = new CustomDialog("assets\\popup.png");
+        dialogAttack = new CustomDialog("assets\\popup.png", 211, 17);
         dialogAttack.addButton(basic);
         dialogAttack.addButton(special);
         dialogAttack.addButton(elemental);
