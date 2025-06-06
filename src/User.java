@@ -96,7 +96,8 @@ public class User {
         potion += sum;
     }
 
-    public void win() {
+    public void win(Charmon enemy) {
+        addChara(enemy);
         victoryCount++;
     }
 

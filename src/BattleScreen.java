@@ -14,17 +14,17 @@ import java.net.URL;
 public class BattleScreen {
 
     private static CardLayout card;
-    private CardLayout cardText;
+    private static CardLayout cardText;
     private int pageText = 1;
     private int runCount = 0;
     private User user;
-    private TransparentPanel text;
+    private static TransparentPanel text;
     private HealthBar playerHealthBar;
     private HealthBar enemyHealthBar;
     private Battle currentBattle; // To hold the battle logic instance
     private String messageLabel; // To display battle messages like "Pikachu used Thunderbolt!"
     private Charmon player, enemy;
-    private JPanel buttonPanel;
+    // private JPanel buttonPanel;
     public static CustomDialog dialogAttack;
 
     public BattleScreen(User user) {
@@ -33,10 +33,10 @@ public class BattleScreen {
         enemy = Character.findRandom(player);
         playerHealthBar = new HealthBar(player.getHP(), player.getHP());
         enemyHealthBar = new HealthBar(enemy.getHP(), enemy.getHP());
-        buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(400, 200));
-        buttonPanel.setBounds(600, 0, 400, 200);
-        buttonPanel.setVisible(true);
+        // buttonPanel = new JPanel();
+        // buttonPanel.setPreferredSize(new Dimension(400, 200));
+        // buttonPanel.setBounds(600, 0, 400, 200);
+        // buttonPanel.setVisible(true);
         // In BattleScreen constructor, after Charmon objects are ready
         currentBattle = new Battle(user, player,
                 // onPlayerHpChange callback
@@ -57,7 +57,7 @@ public class BattleScreen {
                 () -> {
                     // Disable buttons during animation/delay
                     // setButtonsEnabled(false);
-                    buttonPanel.setVisible(false);
+                    // buttonPanel.setVisible(false);
                     // Use a Swing Timer to create a delay before the next action (e.g., enemy's
                     // turn)
                     new Timer(1500, new ActionListener() { // 1.5 second delay
@@ -71,11 +71,12 @@ public class BattleScreen {
                                     text.add(enemyTurn, "Enemy");
                                     cardText.show(text, "Enemy");
                                     currentBattle.enemyTurn(); // Trigger enemy's turn
+
                                 } else { // It's player's turn again
                                     // messageLabel.setText("Your turn!");
                                     JPanel playerTurn = textOption("It's your turn!");
                                     text.add(playerTurn, "Player");
-                                    buttonPanel.setVisible(true);
+                                    // buttonPanel.setVisible(true);
                                     cardText.show(text, "Player");
                                     // setButtonsEnabled(true); // Re-enable player buttons
                                 }
@@ -85,7 +86,7 @@ public class BattleScreen {
                 },
                 // onBattleEnded callback
                 () -> {
-                    buttonPanel.setVisible(false);
+                    // buttonPanel.setVisible(false);
                     // setButtonsEnabled(false); // Disable all buttons
                     // if (player.isFainted()) {
                     // messageLabel.setText("You lost the battle!");
@@ -102,6 +103,8 @@ public class BattleScreen {
 
     public JPanel page() {
 
+        JPanel home = Onboard.getHome();
+        CardLayout mainCard = Onboard.getCard();
         JPanel main = new JPanel();
 
         card = new CardLayout();
@@ -166,8 +169,8 @@ public class BattleScreen {
         // text.setOpaque(false);
         battleBg.add(text);
 
-        JPanel enemy = enemyPanel();
-        enemyCard.add(enemy, "Enemy");
+        JPanel enemyP = enemyPanel();
+        enemyCard.add(enemyP, "Enemy");
 
         // Charmon chara = user.getCurrentChar();
 
@@ -246,18 +249,23 @@ public class BattleScreen {
         // text2.setOpaque(false);
         // text2.add(monsterAppear, BorderLayout.CENTER);
         // text.add(text2, "Text2");
-        textFill(String.format("Wild %s appeared!", currentBattle.getEnemy()), "Text2");
+        textFill(String.format("Wild %s appeared!", currentBattle.getEnemy().getName()), "Text2");
 
-        // JPanel text3 = new JPanel(null);
-        // text3.setPreferredSize(new Dimension(1050, 200));
-        // JLabel playerDo = new JLabel("What will (chara) do?");
-        // playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
-        // playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
-        // playerDo.setBounds(65, 95, 700, 20);
+        JPanel text3 = new JPanel(null);
+        text3.setPreferredSize(new Dimension(1050, 200));
+        JLabel playerDo = new JLabel("What will (chara) do?");
+        playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
+        playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
+        playerDo.setBounds(65, 95, 700, 50);
         // ImageIcon fightImage = new ImageIcon("assets\\fight.png");
         // ImageIcon runImage = new ImageIcon("assets\\run.png");
         // ImageIcon healImage = new ImageIcon("assets\\heal.png");
-        JPanel text3 = textOption(String.format("What will %s do?", user.getCurrentChar().getName()));
+        // JPanel text3 = new JPanel(null);
+        // text3.setPreferredSize(new Dimension(1050, 200));
+        // JPanel textO = textOption("What will " + user.getCurrentChar().getName() + "
+        // do?");
+        // text3.setOpaque(false);
+        // text3.add(textO);
         // text3.setPreferredSize(new Dimension(1050, 200));
         BufferedImage fightImage = null;
         try {
@@ -292,20 +300,19 @@ public class BattleScreen {
         run.setContentAreaFilled(false);
         heal.setBorderPainted(false);
         heal.setContentAreaFilled(false);
-        fight.setBounds(0, 60, 100, 60);
-        run.setBounds(150, 60, 100, 60);
+        fight.setBounds(700, 60, 100, 60);
+        run.setBounds(850, 60, 100, 60);
         heal.setBounds(300, 60, 100, 60);
         text3.setOpaque(false);
-        text3.setLayout(null);
-        // text3.add(playerDo);
+        text3.add(playerDo);
         // JButton p = new JButton("y");
         // text3.add(p);
-        buttonPanel.setLayout(null);
-        buttonPanel.add(fight);
-        buttonPanel.add(run);
-        buttonPanel.add(heal);
-        buttonPanel.setOpaque(false);
-        text3.add(buttonPanel);
+        // buttonPanel.setLayout(null);
+        text3.add(fight);
+        text3.add(run);
+        // buttonPanel.add(heal);
+        // buttonPanel.setOpaque(false);
+        // text3.add(buttonPanel);
 
         text.add(text3, "Text3");
 
@@ -363,7 +370,7 @@ public class BattleScreen {
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogSetting = optionSetting.createDialog("What do you want to
         // do?");
-        CustomDialog dialogSetting = new CustomDialog("assets\\popup.png", 211, 17);
+        CustomDialog dialogSetting = new CustomDialog("assets\\popup.png", 211, 17, 1);
         dialogSetting.addButton(resume);
         dialogSetting.addButton(quit);
 
@@ -382,6 +389,10 @@ public class BattleScreen {
         quit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // nanti nyimpen state sama manggil home
+                // simpen statenya belum
+                home.add(new Homepage().getMainPanel(), "Homepage");
+                dialogSetting.setVisible(false);
+                mainCard.show(home, "Homepage");
             }
         });
 
@@ -450,7 +461,7 @@ public class BattleScreen {
         // JOptionPane optionMove = new JOptionPane(movePanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogMove = optionMove.createDialog("Choose where u want to go");
-        CustomDialog dialogMove = new CustomDialog("assets\\popup.png", 211, 17);
+        CustomDialog dialogMove = new CustomDialog("assets\\popup.png", 211, 17, 1);
         dialogMove.addButton(west);
         dialogMove.addButton(north);
         dialogMove.addButton(east);
@@ -465,9 +476,10 @@ public class BattleScreen {
                 textFill("You had turned to left", "West");
                 cardText.show(text, "West");
                 currentBattle.changeEnemy();
-                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy()), "Text2");
-                JPanel enemy = enemyPanel();
-                enemyCard.add(enemy, "Enemy");
+
+                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy().getName()), "Text2");
+                JPanel enemyP = enemyPanel();
+                enemyCard.add(enemyP, "Enemy");
                 cardEnemy.show(enemyCard, "Enemy");
                 nextBtn.setVisible(true);
             }
@@ -481,9 +493,9 @@ public class BattleScreen {
                 textFill("You had moved forward", "North");
                 cardText.show(text, "North");
                 currentBattle.changeEnemy();
-                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy()), "Text2");
-                JPanel enemy = enemyPanel();
-                enemyCard.add(enemy, "Enemy");
+                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy().getName()), "Text2");
+                JPanel enemyP = enemyPanel();
+                enemyCard.add(enemyP, "Enemy");
                 cardEnemy.show(enemyCard, "Enemy");
                 nextBtn.setVisible(true);
             }
@@ -497,9 +509,9 @@ public class BattleScreen {
                 textFill("You had turned to right", "East");
                 cardText.show(text, "East");
                 currentBattle.changeEnemy();
-                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy()), "Text2");
-                JPanel enemy = enemyPanel();
-                enemyCard.add(enemy, "Enemy");
+                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy().getName()), "Text2");
+                JPanel enemyP = enemyPanel();
+                enemyCard.add(enemyP, "Enemy");
                 cardEnemy.show(enemyCard, "Enemy");
                 nextBtn.setVisible(true);
             }
@@ -513,9 +525,9 @@ public class BattleScreen {
                 textFill("You had moved backward", "South");
                 cardText.show(text, "South");
                 currentBattle.changeEnemy();
-                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy()), "Text2");
-                JPanel enemy = enemyPanel();
-                enemyCard.add(enemy, "Enemy");
+                textFill(String.format("Wild %s appeared!", currentBattle.getEnemy().getName()), "Text2");
+                JPanel enemyP = enemyPanel();
+                enemyCard.add(enemyP, "Enemy");
                 cardEnemy.show(enemyCard, "Enemy");
                 nextBtn.setVisible(true);
             }
@@ -570,7 +582,7 @@ public class BattleScreen {
         // JOptionPane optionAttack = new JOptionPane(attackPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
         // JDialog dialogAttack = optionAttack.createDialog("Choose your attack!");
-        dialogAttack = new CustomDialog("assets\\popup.png", 211, 17);
+        dialogAttack = new CustomDialog("assets\\popup.png", 211, 17, 1);
         dialogAttack.addButton(basic);
         dialogAttack.addButton(special);
         dialogAttack.addButton(elemental);
@@ -638,31 +650,39 @@ public class BattleScreen {
         return card;
     }
 
+    public static CardLayout getCardText() {
+        return cardText;
+    }
+
+    public static JPanel getText() {
+        return text;
+    }
+
     private void textFill(String s, String path) {
         JPanel newText = new JPanel();
         newText.setPreferredSize(new Dimension(1050, 200));
-        JLabel ntmy = new JLabel(s);
-        ntmy.setFont(new Font("Courier New", Font.BOLD, 20));
-        ntmy.setBorder(new EmptyBorder(0, 50, 30, 50));
-        ntmy.setPreferredSize(new Dimension(1100, 200));
+        JLabel label = new JLabel(s);
+        label.setFont(new Font("Courier New", Font.BOLD, 20));
+        label.setBorder(new EmptyBorder(0, 50, 30, 50));
+        label.setPreferredSize(new Dimension(1100, 200));
         // newText.setBackground(new Color(235, 213, 200));
         // newText.setLayout(new FlowLayout(FlowLayout.CENTER));
         newText.setOpaque(false);
-        newText.add(ntmy, BorderLayout.CENTER);
+        newText.add(label, BorderLayout.CENTER);
         text.add(newText, path);
     }
 
-    private JPanel textOption(String s) {
+    public static JPanel textOption(String s) {
         JPanel newText = new JPanel();
         newText.setPreferredSize(new Dimension(1050, 200));
-        JLabel ntmy = new JLabel(s);
-        ntmy.setFont(new Font("Courier New", Font.BOLD, 20));
-        ntmy.setBorder(new EmptyBorder(0, 50, 30, 50));
-        ntmy.setPreferredSize(new Dimension(1100, 200));
+        JLabel label = new JLabel(s);
+        label.setFont(new Font("Courier New", Font.BOLD, 20));
+        label.setBorder(new EmptyBorder(0, 50, 30, 50));
+        label.setPreferredSize(new Dimension(1100, 200));
         // newText.setBackground(new Color(235, 213, 200));
         // newText.setLayout(new FlowLayout(FlowLayout.CENTER));
         newText.setOpaque(false);
-        newText.add(ntmy, BorderLayout.CENTER);
+        newText.add(label, BorderLayout.CENTER);
         return newText;
     }
 
@@ -670,9 +690,11 @@ public class BattleScreen {
         JPanel panel = new JPanel(null);
         // panel.setBackground(Color.black);
         // panel.setBounds(775, 25, 500, 225);
+        enemy = currentBattle.getEnemy();
         panel.setOpaque(false);
         TransparentPanel enemyStat = new TransparentPanel("assets\\enemy-box.png");
         enemyStat.setLayout(null);
+        enemyHealthBar = new HealthBar(enemy.getHP(), enemy.getHP());
         enemyHealthBar.setBounds(50, 60, 200, 30);
         enemyStat.add(enemyHealthBar);
         enemyStat.setBounds(250, 100, 300, 100);
