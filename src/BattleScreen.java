@@ -285,24 +285,15 @@ public class BattleScreen {
         Image r = runImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JButton run = new JButton(new ImageIcon(r));
         // JButton run = new JButton(runImage);
-        BufferedImage healImage = null;
-        try {
-            healImage = ImageIO.read(new File("assets\\heal.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Image h = healImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        JButton heal = new JButton(new ImageIcon(h));
+
         // JButton heal = new JButton(healImage);
         fight.setBorderPainted(false);
         fight.setContentAreaFilled(false);
         run.setBorderPainted(false);
         run.setContentAreaFilled(false);
-        heal.setBorderPainted(false);
-        heal.setContentAreaFilled(false);
+
         fight.setBounds(700, 60, 100, 60);
         run.setBounds(850, 60, 100, 60);
-        heal.setBounds(300, 60, 100, 60);
         text3.setOpaque(false);
         text3.add(playerDo);
         // JButton p = new JButton("y");
@@ -470,8 +461,9 @@ public class BattleScreen {
 
         west.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Sound.play("assets\\sound\\run.wav");
                 dialogMove.setVisible(false);
-                runCount = 0;
+                runCount++;
                 pageText = 1;
                 textFill("You had turned to left", "West");
                 cardText.show(text, "West");
@@ -487,8 +479,9 @@ public class BattleScreen {
 
         north.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Sound.play("assets\\sound\\run.wav");
                 dialogMove.setVisible(false);
-                runCount = 0;
+                runCount++;
                 pageText = 1;
                 textFill("You had moved forward", "North");
                 cardText.show(text, "North");
@@ -503,8 +496,9 @@ public class BattleScreen {
 
         east.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Sound.play("assets\\sound\\run.wav");
                 dialogMove.setVisible(false);
-                runCount = 0;
+                runCount++;
                 pageText = 1;
                 textFill("You had turned to right", "East");
                 cardText.show(text, "East");
@@ -519,8 +513,9 @@ public class BattleScreen {
 
         south.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Sound.play("assets\\sound\\run.wav");
                 dialogMove.setVisible(false);
-                runCount = 0;
+                runCount++;
                 pageText = 1;
                 textFill("You had moved backward", "South");
                 cardText.show(text, "South");
@@ -562,6 +557,16 @@ public class BattleScreen {
         }
         Image el = elementalImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
         JButton elemental = new JButton(new ImageIcon(el));
+
+        BufferedImage healImage = null;
+        try {
+            healImage = ImageIO.read(new File("assets\\heal.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image h = healImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+        JButton heal = new JButton(new ImageIcon(h));
+
         // ImageIcon basicImage = new ImageIcon("assets\\basic.png");
         // ImageIcon specialImage = new ImageIcon("assets\\special.png");
         // ImageIcon elementalImage = new ImageIcon("assets\\elemental.png");
@@ -574,10 +579,13 @@ public class BattleScreen {
         special.setContentAreaFilled(false);
         elemental.setBorderPainted(false);
         elemental.setContentAreaFilled(false);
+        heal.setBorderPainted(false);
+        heal.setContentAreaFilled(false);
 
-        basic.setBounds(30, 80, 100, 50);
-        special.setBounds(30, 130, 100, 50);
-        elemental.setBounds(30, 180, 100, 50);
+        basic.setBounds(40, 130, 100, 50);
+        special.setBounds(160, 130, 100, 50);
+        elemental.setBounds(40, 250, 100, 50);
+        heal.setBounds(40, 250, 100, 50);
 
         // JOptionPane optionAttack = new JOptionPane(attackPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
@@ -598,7 +606,6 @@ public class BattleScreen {
 
         run.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                runCount++;
                 if (runCount > 3) {
                     JOptionPane.showMessageDialog(Main.frame, "You can't run more than 3 times!");
                 } else {
