@@ -34,6 +34,7 @@ public class Battle {
 
     public void changeEnemy() {
         enemy = Character.findRandom(player);
+        onEnemyHpChange.run();
     }
 
     // Method to initiate a player's turn from the GUI
@@ -105,7 +106,7 @@ public class Battle {
         dialogAttack.setVisible(false);
         if (player.isFainted()) {
             System.out.println("You lose!");
-            CustomDialog dialogLose = new CustomDialog("assets\\popup-result.png");
+            CustomDialog dialogLose = new CustomDialog("assets\\popup-result.png", 400, 60, 0);
             JLabel textLose = new JLabel("YOU LOSE..");
             // textLose.setFont("Verdana");
             textLose.setBounds(100, 150, 200, 100);
@@ -117,7 +118,7 @@ public class Battle {
             // langsung quit
         } else {
             System.out.println(player.getName() + " wins!");
-            CustomDialog dialogWin = new CustomDialog("assets\\popup-result.png");
+            CustomDialog dialogWin = new CustomDialog("assets\\popup-result.png", 400, 60, 0);
             JLabel textWin = new JLabel("YOU WIN!!");
             // textWin.setFont("Verdana");
             textWin.setBounds(100, 150, 200, 100);
@@ -125,7 +126,7 @@ public class Battle {
             Sound.play("assets\\sound\\win.wav");
             dialogWin.setVisible(true);
             // tambahin bgm win, popup-result win
-            user.win();
+            user.win(enemy);
             // kalo jumlahnya sesuai itu yaudah popup-result naik level suara dll
             String reach = "You have reached level ";
             String levelText = "";
@@ -162,7 +163,7 @@ public class Battle {
             user.upgradeDamage();
             user.upgradeHealth();
             JLabel levelUp = new JLabel(levelText);
-            CustomDialog dialogLevel = new CustomDialog("assets\\popup-result.png");
+            CustomDialog dialogLevel = new CustomDialog("assets\\popup-result.png", 400, 60, 0);
             // textLevel.setFont("Verdana");
             levelUp.setBounds(100, 150, 200, 100);
             dialogLevel.addLabel(levelUp);

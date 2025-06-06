@@ -15,6 +15,10 @@ public class NewGame {
     private int pageText = 1;
     private TransparentPanel text;
     private User newUser;
+    private CardLayout mainCard;
+    private JPanel home;
+    private boolean isReady = false;
+    private LoadingAnimation loading = new LoadingAnimation("assets\\disc.png");
 
     public NewGame() {
 
@@ -22,8 +26,8 @@ public class NewGame {
 
     public JPanel page() {
 
-        JPanel home = Onboard.getHome();
-        CardLayout mainCard = Onboard.getCard();
+        home = Onboard.getHome();
+        mainCard = Onboard.getCard();
 
         JPanel main = new JPanel();
 
@@ -220,7 +224,7 @@ public class NewGame {
         input.add(empty, "Empty");
 
         TransparentPanel inputBox = new TransparentPanel("assets\\player-box.png");
-        inputBox.setBounds(200, 200, 300, 100);
+        inputBox.setBounds(250, 300, 300, 100);
         // inputBox.setLayout(null);
         JPanel inputName = new JPanel(null);
         inputName.setBounds(0, 0, 700, 500);
@@ -228,7 +232,7 @@ public class NewGame {
         JTextField name = new JTextField();
         name.setOpaque(false);
         name.setPreferredSize(new Dimension(270, 60));
-        name.setBounds(30, 50, 200, 50);
+        name.setBounds(30, 60, 180, 30);
         // name.setBorder(new EmptyBorder(0, 15, 30, 15));
         inputName.setOpaque(false);
         inputBox.add(name);
@@ -286,7 +290,7 @@ public class NewGame {
                     newUser = new User(name.getText());
                     textName(newUser.getName());
                     newUser.setCurrentChar("Pikachu");
-                    home.add(new BattleScreen(newUser).page(), "BattleScreen");
+                    addBattleScreen();
                     System.out.println("INI ISIIIIII" + newUser.getCurrentChar());
                 }
 
@@ -307,7 +311,21 @@ public class NewGame {
                     nextBtn.setVisible(true);
                 }
                 if (pageText == 7) {
-                    mainCard.show(home, "BattleScreen");
+                    nextBtn.setVisible(false);
+                    backBtn.setVisible(false);
+                    if (isReady) {
+                        // If already loaded, show it immediately
+                        System.out.println("BattleScreen already loaded. Showing directly.");
+                        mainCard.show(home, "BattleScreen");
+                    } else {
+                        // If not yet loaded, show loading animation
+                        System.out.println("BattleScreen not yet loaded. Showing animation.");
+                        loading.setBounds(650, 200, 102, 153);
+                        newGame.add(loading);
+                        loading.startAnimation();
+                        // The SwingWorker's done() method will handle showing BattleScreen when it's
+                        // done
+                    }
                 }
             }
         });
@@ -331,6 +349,39 @@ public class NewGame {
         text6.setOpaque(false);
         text6.add(ntmy, BorderLayout.CENTER);
         text.add(text6, "Text6");
+    }
+
+    private void addBattleScreen() {
+        new SwingWorker<JPanel, Void>() {
+            @Override
+            protected JPanel doInBackground() throws Exception {
+                isReady = false;
+                BattleScreen battleScreen = new BattleScreen(newUser);
+                return battleScreen.page(); // Get the actual JPanel
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    JPanel battleScreen = get();
+                    System.out.println("sukses nambahin battlescreen");
+                    isReady = true;
+                    loading.stopAnimation();
+                    home.add(battleScreen, "BattleScreen");
+                    mainCard.show(home, "BattleScreen");
+                    // parentFrame.pack();
+                    // parentFrame.revalidate(); // Essential to ensure layout updates
+                    // parentFrame.repaint(); // Essential to ensure visual updates
+
+                } catch (InterruptedException | java.util.concurrent.ExecutionException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(Main.frame,
+                            "Error loading Battle Screen: " + e.getMessage(),
+                            "Loading Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.execute(); // Start the SwingWorker
     }
 
 }

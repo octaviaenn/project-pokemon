@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Homepage {
-    private JPanel mainPanel;
+    private static JPanel mainPanel;
     private JButton storeButton;
     private JButton characterButton;
     private JButton battleButton;
@@ -14,6 +14,7 @@ public class Homepage {
         Character.define();
         mainPanel = new JPanel() {
             private Image backgroundImage = new ImageIcon("assets\\blue-cloud.jpeg").getImage();
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -21,6 +22,7 @@ public class Homepage {
             }
         };
         mainPanel.setLayout(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(1400, 750));
         JPanel topButtonPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -100,29 +102,33 @@ public class Homepage {
     private void openStore() {
 
     }
+
     private void openCharacterSelection() {
 
     }
+
     private void openBattle() {
 
     }
+
     private void goHome() {
         Onboard.getCard().show(Onboard.getHome(), "Onboard");
     }
-    public JPanel getMainPanel() {
+
+    public static JPanel getMainPanel() {
         return mainPanel;
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new JFrame("Charmon Game - Homepage");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setContentPane(new Homepage().getMainPanel());
-                frame.setSize(1400, 750);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
-    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new Runnable() {
+    // @Override
+    // public void run() {
+    // JFrame frame = new JFrame("Charmon Game - Homepage");
+    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // frame.setContentPane(new Homepage().getMainPanel());
+    // frame.setSize(1400, 750);
+    // frame.setLocationRelativeTo(null);
+    // frame.setVisible(true);
+    // }
+    // });
+    // }
 }

@@ -12,7 +12,7 @@ public class CustomDialog extends JDialog {
     private JFrame frame;
     private JPanel backgroundPanel;
 
-    public CustomDialog(String path, int a, int b) {
+    public CustomDialog(String path, int a, int b, int flag) {
         super(Main.getFrame(), true);
         setUndecorated(true); // No window border
         frame = Main.getFrame();
@@ -65,6 +65,7 @@ public class CustomDialog extends JDialog {
         JButton x = new JButton(new ImageIcon("assets\\x-btn.png"));
         x.setBounds(a, b, 50, 50);
         x.setBorderPainted(false);
+        x.setFocusPainted(false);
         x.setContentAreaFilled(false);
         // child.setOpaque(false);
 
@@ -72,7 +73,8 @@ public class CustomDialog extends JDialog {
         backgroundPanel.add(x);
         setContentPane(backgroundPanel);
 
-        setLocationRelativeTo(Main.frame);
+        if(flag==1) setLocation(900, 400);
+        else setLocation(800, 350);
 
         x.addActionListener(new ActionListener() {
             @Override

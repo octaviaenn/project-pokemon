@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.*;
+import javax.swing.JPanel;
 
 public class Charmon {
     private String name;
@@ -10,6 +12,8 @@ public class Charmon {
     private int defense;
     private List<Move> moves;
     private String image;
+    private JPanel text;
+    private CardLayout cardText;
 
     public Charmon(String name, Type type, int health, int attack, int defense, String image) {
         this.name = name;
@@ -74,6 +78,11 @@ public class Charmon {
     public void attack(Charmon target, Move move) {
         int damage = Battle.calculateDamage(this, move, target);
         target.takeDamage(damage);
+        text = BattleScreen.getText();
+        cardText = BattleScreen.getCardText();
+        JPanel textMessage = BattleScreen.textOption(this.name + " used " + move.getName() + " on " + target.getName());
+        text.add(textMessage, "Message");
+        cardText.show(text, "Message");
         System.out.println(
                 this.name + " used " + move.getName() + " on " + target.getName() + " for " + damage + " damage!");
     }
@@ -81,6 +90,9 @@ public class Charmon {
     public void takeDamage(int damage) {
         this.health -= damage;
         if (this.health <= 0) {
+            JPanel textMessage = BattleScreen.textOption(this.name + " fainted.");
+            text.add(textMessage, "Message");
+            cardText.show(text, "Message");
             System.out.println(this.name + " fainted!");
         }
     }

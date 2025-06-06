@@ -23,7 +23,6 @@ public class Onboard {
 
         ImagePanel homebg = new ImagePanel("assets\\blue-cloud.jpeg");
         home.add(homebg, "Onboard");
-        home.add(new NewGame().page(), "NewGame");
 
         homebg.setPreferredSize(new Dimension(1400, 750));
         homebg.setLayout(null);
@@ -32,7 +31,7 @@ public class Onboard {
 
         JLabel title = new JLabel("LET'S PLAY CHARMON!");
         title.setFont(new Font("Impact", Font.BOLD, 40));
-        title.setBounds(450, 100, 500, 50);
+        title.setBounds(525, 200, 500, 50);
         // c.gridx = 0;
         // c.gridy = 0;
         // c.gridwidth = 2;
@@ -54,6 +53,7 @@ public class Onboard {
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                home.add(new NewGame().page(), "NewGame");
                 card.show(home, "NewGame");
             }
         });
@@ -83,6 +83,12 @@ public class Onboard {
         // c.anchor = GridBagConstraints.CENTER;
         // c.insets = new Insets(50, 10, 10, 10);
         homebg.add(exitGame);
+
+        exitGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
 
     }
 
