@@ -1,3 +1,4 @@
+import javax.print.MultiDocPrintService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,8 +10,11 @@ public class Homepage {
     private JButton characterButton;
     private JButton battleButton;
     private JButton homeButton;
+    private JFrame frame;
 
-    public Homepage() {
+
+    public Homepage(JFrame frame) {
+        this.frame = frame;
         Character.define();
         mainPanel = new JPanel() {
             private Image backgroundImage = new ImageIcon("assets\\blue-cloud.jpeg").getImage();
@@ -56,6 +60,8 @@ public class Homepage {
         homeButton.setBorderPainted(false);
         homeButton.setFocusPainted(false);
         homeButton.setContentAreaFilled(false);
+        JLabel coinLabel = new JLabel("Coins: ");
+//        topButtonPanel.add(coinLabel, gbc);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);
@@ -78,9 +84,7 @@ public class Homepage {
 
         battleButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                openBattle();
-            }
+            public void actionPerformed(ActionEvent e) { openBattle(); }
         });
 
         topButtonPanel.add(storeButton);
@@ -98,13 +102,16 @@ public class Homepage {
     }
 
     private void openStore() {
-
+        Store store = new Store(frame);
+        frame.setContentPane(store.getPanel());
+        frame.revalidate();
+        frame.repaint();
     }
     private void openCharacterSelection() {
-
+        JOptionPane.showMessageDialog(null,"blom");
     }
     private void openBattle() {
-
+        JOptionPane.showMessageDialog(null,"blom");
     }
     private void goHome() {
         Onboard.getCard().show(Onboard.getHome(), "Onboard");
@@ -118,7 +125,8 @@ public class Homepage {
             public void run() {
                 JFrame frame = new JFrame("Charmon Game - Homepage");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setContentPane(new Homepage().getMainPanel());
+                Homepage hompej = new Homepage(frame);
+                frame.setContentPane(hompej.getMainPanel());
                 frame.setSize(1400, 750);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
