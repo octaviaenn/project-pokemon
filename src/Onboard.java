@@ -44,7 +44,7 @@ public class Onboard {
         // newGame.setFont(new Font("Verdana", Font.BOLD, 20));
         newGame.setBorderPainted(false);
         newGame.setContentAreaFilled(false);
-        newGame.setBounds(600, 300, 200, 100);
+        newGame.setBounds(600, 350, 200, 100);
         // c.gridx = 0;
         // c.gridy = 1;
         // c.gridwidth = 1;
@@ -63,7 +63,7 @@ public class Onboard {
         // resumeGame.setFont(new Font("Verdana", Font.BOLD, 20));
         resumeGame.setBorderPainted(false);
         resumeGame.setContentAreaFilled(false);
-        resumeGame.setBounds(600, 400, 200, 100);
+        resumeGame.setBounds(600, 450, 200, 100);
         // c.gridx = 1;
         // c.gridy = 1;
         // c.gridwidth = 1;
@@ -76,7 +76,7 @@ public class Onboard {
         JButton exitGame = new JButton(exit);
         exitGame.setBorderPainted(false);
         exitGame.setContentAreaFilled(false);
-        exitGame.setBounds(600, 500, 200, 100);
+        exitGame.setBounds(600, 550, 200, 100);
         // c.gridx = 0;
         // c.gridy = 2;
         // c.gridwidth = 2;
