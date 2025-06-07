@@ -10,12 +10,20 @@ public class Homepage {
     private JButton battleButton;
     private JButton homeButton;
     private JFrame frame;
+    private User user;
+    private CardLayout mainCard;
+    private JPanel home;
+    private static boolean isReady = false;
+    private LoadingAnimation loading = new LoadingAnimation("assets\\disc.png");
+    private static LoadingAnimation loadingBattle = new LoadingAnimation("assets\\disc.png");
+    private static BattleScreen battleScreen;
 
     private Store storePage;
 
-    public Homepage(JFrame frame) {
+    public Homepage(JFrame frame, User user) {
+        mainCard = Onboard.getCard();
+        home = Onboard.getHome();
         this.frame = frame;
-        Character.define();
         mainPanel = new JPanel() {
             private Image backgroundImage = new ImageIcon("assets\\blue-cloud.jpeg").getImage();
 
@@ -31,23 +39,24 @@ public class Homepage {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         ImageIcon store = new ImageIcon("assets\\store.png");
-        Image sg = store.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+        Image sg = store.getImage().getScaledInstance(150, 75, Image.SCALE_SMOOTH);
         ImageIcon stx = new ImageIcon(sg);
         storeButton = new JButton(stx);
         storeButton.setBorderPainted(false);
         storeButton.setFocusPainted(false);
         storeButton.setContentAreaFilled(false);
 
-        ImageIcon character = new ImageIcon("assets\\chara.png");
-        Image ig = character.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
-        ImageIcon chx = new ImageIcon(ig);
-        characterButton = new JButton(chx);
-        characterButton.setBorderPainted(false);
-        characterButton.setFocusPainted(false);
-        characterButton.setContentAreaFilled(false);
+        // ImageIcon character = new ImageIcon("assets\\chara.png");
+        // Image ig = character.getImage().getScaledInstance(150, 75,
+        // Image.SCALE_SMOOTH);
+        // ImageIcon chx = new ImageIcon(ig);
+        // characterButton = new JButton(chx);
+        // characterButton.setBorderPainted(false);
+        // characterButton.setFocusPainted(false);
+        // characterButton.setContentAreaFilled(false);
 
         ImageIcon battle = new ImageIcon("assets\\battle.png");
-        Image img = battle.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+        Image img = battle.getImage().getScaledInstance(150, 75, Image.SCALE_SMOOTH);
         ImageIcon btx = new ImageIcon(img);
         battleButton = new JButton(btx);
         battleButton.setBorderPainted(false);
@@ -62,14 +71,13 @@ public class Homepage {
         homeButton.setFocusPainted(false);
         homeButton.setContentAreaFilled(false);
 
-
-//        ImageIcon coin = new ImageIcon("assets\\coin.png");
-//        Image cc = coin.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
-//        ImageIcon stx = new ImageIcon(sg);
-//        storeButton = new JButton(stx);
-//        storeButton.setBorderPainted(false);
-//        storeButton.setFocusPainted(false);
-//        storeButton.setContentAreaFilled(false);
+        // ImageIcon coin = new ImageIcon("assets\\coin.png");
+        // Image cc = coin.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+        // ImageIcon stx = new ImageIcon(sg);
+        // storeButton = new JButton(stx);
+        // storeButton.setBorderPainted(false);
+        // storeButton.setFocusPainted(false);
+        // storeButton.setContentAreaFilled(false);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);
@@ -88,12 +96,12 @@ public class Homepage {
             }
         });
 
-        characterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openCharacterSelection();
-            }
-        });
+        // characterButton.addActionListener(new ActionListener() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        // openCharacterSelection();
+        // }
+        // });
 
         battleButton.addActionListener(new ActionListener() {
             @Override
@@ -103,7 +111,7 @@ public class Homepage {
         });
 
         topButtonPanel.add(storeButton);
-        topButtonPanel.add(characterButton);
+        // topButtonPanel.add(characterButton);
         topButtonPanel.add(battleButton);
 
         homeButton.addActionListener(new ActionListener() {
@@ -115,31 +123,107 @@ public class Homepage {
         mainPanel.add(topButtonPanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
-    private void openCharacterSelection() {
+    // private void openCharacterSelection() {
 
-    }
+    // }
     private void openBattle() {
-        JOptionPane.showMessageDialog(mainPanel, "Battle started");
+
+        addBattleScreen();
+        addKarakterPokemon();
+
+        // JOptionPane.showMessageDialog(mainPanel, "Battle started");
     }
+
     private void goHome() {
         Onboard.getCard().show(Onboard.getHome(), "Onboard");
     }
+
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+    private void addKarakterPokemon() {
+        new SwingWorker<JPanel, Void>() {
             @Override
-            public void run() {
-                JFrame frame = new JFrame("Homepage");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                Homepage Hp = new Homepage(frame);
-                frame.setContentPane(Hp.getMainPanel());
-                frame.setSize(1400, 750);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
+            protected JPanel doInBackground() throws Exception {
+                loading.setBounds(650, 200, 102, 153);
+                mainPanel.add(loading);
+                loading.startAnimation();
+                KarakterPokemon choose = new KarakterPokemon(user);
+                return choose; // Get the actual JPanel
             }
-        });
+
+            @Override
+            protected void done() {
+                try {
+                    JPanel choose = get();
+                    System.out.println("sukses nambahin KarakterPokemon");
+                    loading.stopAnimation();
+                    home.add(choose, "KarakterPokemon");
+                    mainCard.show(home, "KarakterPokemon");
+                    // parentFrame.pack();
+                    // parentFrame.revalidate(); // Essential to ensure layout updates
+                    // parentFrame.repaint(); // Essential to ensure visual updates
+
+                } catch (InterruptedException | java.util.concurrent.ExecutionException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(Main.frame,
+                            "Error loading Battle Screen: " + e.getMessage(),
+                            "Loading Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.execute(); // Start the SwingWorker
     }
+
+    private void addBattleScreen() {
+        new SwingWorker<BattleScreen, Void>() {
+            @Override
+            protected BattleScreen doInBackground() throws Exception {
+                BattleScreen battleScreen = new BattleScreen(user);
+                return battleScreen; // Get the actual JPanel
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    isReady = true;
+                    battleScreen = get();
+                    System.out.println("sukses nambahin battlescreen");
+                    loadingBattle.stopAnimation();
+                    // home.add(battleScreen, "BattleScreen");
+                    // mainCard.show(home, "BattleScreen");
+                    // parentFrame.pack();
+                    // parentFrame.revalidate(); // Essential to ensure layout updates
+                    // parentFrame.repaint(); // Essential to ensure visual updates
+
+                } catch (InterruptedException | java.util.concurrent.ExecutionException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(Main.frame,
+                            "Error loading Battle Screen: " + e.getMessage(),
+                            "Loading Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.execute(); // Start the SwingWorker
+    }
+
+    public static boolean getIsReady() {
+        return isReady;
+    }
+
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new Runnable() {
+    // @Override
+    // public void run() {
+    // JFrame frame = new JFrame("Homepage");
+    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // Homepage Hp = new Homepage(frame);
+    // frame.setContentPane(Hp.getMainPanel());
+    // frame.setSize(1400, 750);
+    // frame.setLocationRelativeTo(null);
+    // frame.setVisible(true);
+    // }
+    // });
+    // }
 }

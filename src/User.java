@@ -7,11 +7,11 @@ public class User {
     private int coin;
     private int potion;
     private Charmon currentChar;
-    private Charmon[] chara = new Charmon[15];
+    // private Charmon[] chara = new Charmon[15];
     private List<Charmon> availChar;
-    private int charaCount = 0;
+    // private int charaCount = 0;
     private int victoryCount = 0;
-    private int diffHealth = 0;
+    // private int diffHealth = 0;
 
     public User(String name) {
         this.name = name;
@@ -41,9 +41,9 @@ public class User {
         return currentChar;
     }
 
-    public int getDiffHealth() {
-        return diffHealth;
-    }
+    // public int getDiffHealth() {
+    // return diffHealth;
+    // }
 
     public void setCurrentChar(String name) {
         for (Charmon i : availChar) {
@@ -55,38 +55,33 @@ public class User {
     }
 
     public void changeChara(String name) {
-        for (int i = 0; i < charaCount; i++) {
-            if (chara[i].getName().equalsIgnoreCase(name)) {
-                currentChar = chara[i];
+        for (Charmon c : availChar) {
+            if (c.getName().equalsIgnoreCase(name)) {
+                currentChar = c;
                 return;
             }
         }
     }
 
-    public void addChara(Charmon charmon) {
-        charaCount++;
-        chara[charaCount] = charmon;
-    }
-
     public void addLevel() {
         level++;
         coin += 1000;
-        for (int i = 0; i < charaCount; i++) {
-            chara[i].setHealth(20);
-            chara[i].setAttack(10);
+        for (Charmon c : availChar) {
+            c.setHealth(20);
+            c.setAttack(10);
         }
     }
 
     public void upgradeHealth() {
-        diffHealth += 20;
-        for (int i = 0; i < charaCount; i++) {
-            chara[i].setHealth(20);
+        // diffHealth += 20;
+        for (Charmon c : availChar) {
+            c.setHealth(20);
         }
     }
 
     public void upgradeDamage() {
-        for (int i = 0; i < charaCount; i++) {
-            chara[i].setAttack(10);
+        for (Charmon c : availChar) {
+            c.setAttack(10);
         }
     }
 
@@ -95,7 +90,7 @@ public class User {
     }
 
     public void win(Charmon enemy) {
-        addChara(enemy);
+        // addChara(enemy);
         victoryCount++;
     }
 
@@ -104,7 +99,7 @@ public class User {
     }
 
     public boolean expend(int amount) {
-        if(coin >= amount) {
+        if (coin >= amount) {
             coin -= amount;
             return true;
         }

@@ -109,7 +109,7 @@ public class Battle {
             CustomDialog dialogLose = new CustomDialog("assets\\popup-result.png", 400, 60, 0);
             JLabel textLose = new JLabel("YOU LOSE..");
             // textLose.setFont("Verdana");
-            textLose.setBounds(100, 150, 200, 100);
+            textLose.setBounds(150, 150, 200, 100);
             dialogLose.addLabel(textLose);
             Sound.play("assets\\sound\\lose.wav");
             dialogLose.setVisible(true);
@@ -121,7 +121,7 @@ public class Battle {
             CustomDialog dialogWin = new CustomDialog("assets\\popup-result.png", 400, 60, 0);
             JLabel textWin = new JLabel("YOU WIN!!");
             // textWin.setFont("Verdana");
-            textWin.setBounds(100, 150, 200, 100);
+            textWin.setBounds(150, 150, 200, 100);
             dialogWin.addLabel(textWin);
             Sound.play("assets\\sound\\win.wav");
             dialogWin.setVisible(true);
@@ -160,8 +160,6 @@ public class Battle {
                     break;
             }
             user.addLevel();
-            user.upgradeDamage();
-            user.upgradeHealth();
             JLabel levelUp = new JLabel(levelText);
             CustomDialog dialogLevel = new CustomDialog("assets\\popup-result.png", 400, 60, 0);
             // textLevel.setFont("Verdana");

@@ -9,6 +9,11 @@ import java.io.IOException;
 public class KarakterPokemon extends JPanel {
     private String selectedCharacter = null;
     private JFrame parentFrame;
+    private static CardLayout mainCard;
+    private static JPanel home;
+    private static LoadingAnimation loadingBattle;
+    private boolean flag = false;
+    private User user;
 
     // Data Pokémon
     private static class PokemonData {
@@ -23,6 +28,9 @@ public class KarakterPokemon extends JPanel {
 
         PokemonData(String name, String type, int hp, int atk, int def, String basicMove, String specialMove,
                 String elementalMove) {
+            home = Onboard.getHome();
+            mainCard = Onboard.getCard();
+            loadingBattle = new LoadingAnimation("assets\\disc.png");
             this.name = name;
             this.type = type;
             this.hp = hp;
@@ -67,7 +75,9 @@ public class KarakterPokemon extends JPanel {
                     "Double-Edge (Normal, 120)")
     };
 
-    public KarakterPokemon() {
+    public KarakterPokemon(User user) {
+        this.user = user;
+        flag = false;
         // setTitle("Pemilihan Karakter Pokemon");
         setSize(1400, 750);
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,7 +147,7 @@ public class KarakterPokemon extends JPanel {
         // backButton.setPreferredSize(new Dimension(140, 50));
         backButton.addActionListener(e -> {
             if (parentFrame != null) {
-                Homepage hp = new Homepage(parentFrame);
+                Homepage hp = new Homepage(parentFrame, user);
                 parentFrame.setContentPane(hp.getMainPanel());
                 parentFrame.revalidate();
                 parentFrame.repaint();
@@ -174,7 +184,23 @@ public class KarakterPokemon extends JPanel {
         // startButton.setPreferredSize(new Dimension(200, 180));
         startButton.addActionListener(e -> {
             if (selectedCharacter != null) {
-                JOptionPane.showMessageDialog(this, "Memulai permainan dengan " + selectedCharacter + "!");
+                user.setCurrentChar(selectedCharacter);
+                if (NewGame.getIsReady()) {
+                    // If already loaded, show it immediately
+                    System.out.println("BattleScreen already loaded. Showing directly.");
+                    initBattleScreen();
+                } else {
+                    // If not yet loaded, show loading animation
+                    System.out.println("BattleScreen not yet loaded. Showing animation.");
+                    loadingBattle.setBounds(650, 200, 102, 153);
+                    mainPanel.add(loadingBattle);
+                    loadingBattle.startAnimation();
+                    initBattleScreen();
+                    // The SwingWorker's done() method will handle showing BattleScreen when it's
+                    // done
+                }
+                // JOptionPane.showMessageDialog(this, "Memulai permainan dengan " +
+                // selectedCharacter + "!");
                 // ambil characternya
             } else {
                 JOptionPane.showMessageDialog(this, "Silakan pilih karakter terlebih dahulu!");
@@ -245,9 +271,10 @@ public class KarakterPokemon extends JPanel {
         });
         return card;
     }
+
     // Pop-up detail karakter
     private void showCharacterPopup(String pokemonName) {
-        Window parentWindow=parentFrame != null ? parentFrame: SwingUtilities.getWindowAncestor(this);
+        Window parentWindow = parentFrame != null ? parentFrame : SwingUtilities.getWindowAncestor(this);
         JDialog popup = new JDialog(parentWindow, pokemonName + " Details", Dialog.ModalityType.APPLICATION_MODAL);
         popup.setSize(600, 400); // Ukuran tetap 600x400
         popup.setLocationRelativeTo(this);
@@ -428,6 +455,40 @@ public class KarakterPokemon extends JPanel {
 
         popup.add(backgroundPanel, BorderLayout.CENTER);
         popup.setVisible(true);
+    }
+
+    private void initBattleScreen() {
+        new SwingWorker<JPanel, Void>() {
+            @Override
+            protected JPanel doInBackground() throws Exception {
+                flag = false;
+                BattleScreen battleScreen = NewGame.getBattleScreen();
+                battleScreen.init();
+                return battleScreen.page(); // Get the actual JPanel
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    JPanel battleScreen = get();
+                    System.out.println("sukses nambahin battlescreen");
+                    flag = true;
+                    loadingBattle.stopAnimation();
+                    home.add(battleScreen, "BattleScreen");
+                    mainCard.show(home, "BattleScreen");
+                    // parentFrame.pack();
+                    // parentFrame.revalidate(); // Essential to ensure layout updates
+                    // parentFrame.repaint(); // Essential to ensure visual updates
+
+                } catch (InterruptedException | java.util.concurrent.ExecutionException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(Main.frame,
+                            "Error loading Battle Screen: " + e.getMessage(),
+                            "Loading Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.execute(); // Start the SwingWorker
     }
 
     // public static void main(String[] args) {

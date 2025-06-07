@@ -17,8 +17,12 @@ public class NewGame {
     private User newUser;
     private CardLayout mainCard;
     private JPanel home;
-    private boolean isReady = false;
+    private static boolean isReady = false;
+    private boolean readyChoose = false;
     private LoadingAnimation loading = new LoadingAnimation("assets\\disc.png");
+    private static LoadingAnimation loadingBattle = new LoadingAnimation("assets\\disc.png");
+    private boolean flagInput = false;
+    private static BattleScreen battleScreen;
 
     public NewGame() {
 
@@ -28,6 +32,8 @@ public class NewGame {
 
         home = Onboard.getHome();
         mainCard = Onboard.getCard();
+        isReady = false;
+        readyChoose = false;
 
         JPanel main = new JPanel();
 
@@ -266,6 +272,9 @@ public class NewGame {
 
         backBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                if (flagInput) {
+                    nextBtn.setVisible(true);
+                }
                 if (pageText == 1)
                     return;
                 pageText--;
@@ -280,10 +289,6 @@ public class NewGame {
                     cardInput.show(input, "InputName");
                 else
                     cardInput.show(input, "Empty");
-                if (pageText == 7) {
-                    home.add(new BattleScreen(newUser).page(), "BattleScreen");
-                    mainCard.show(home, "BattleScreen");
-                }
             }
         });
 
@@ -294,9 +299,10 @@ public class NewGame {
                     System.out.println("ambil nama");
                     newUser = new User(name.getText());
                     textName(newUser.getName());
-                    newUser.setCurrentChar("Pikachu");
+                    // newUser.setCurrentChar("Pikachu");
                     addBattleScreen();
-                    System.out.println("INI ISIIIIII" + newUser.getCurrentChar());
+                    addKarakterPokemon();
+                    // System.out.println("INI ISIIIIII" + newUser.getCurrentChar());
                 }
 
                 pageText++;
@@ -304,6 +310,7 @@ public class NewGame {
                 backBtn.setVisible(true);
                 cardText.show(text, String.format("Text%d", pageText));
                 if (pageText == 5) {
+                    flagInput = true;
                     System.out.println("Page 5");
                     cardInput.show(input, "InputName");
                     if (name.getText().isEmpty()) {
@@ -318,17 +325,18 @@ public class NewGame {
                 if (pageText == 7) {
                     nextBtn.setVisible(false);
                     backBtn.setVisible(false);
-                    if (isReady) {
+                    if (readyChoose) {
                         // If already loaded, show it immediately
-                        System.out.println("BattleScreen already loaded. Showing directly.");
-                        mainCard.show(home, "BattleScreen");
+                        System.out.println("Karakter Pokemon already loaded. Showing directly.");
+                        mainCard.show(home, "KarakterPokemon");
                     } else {
                         // If not yet loaded, show loading animation
-                        System.out.println("BattleScreen not yet loaded. Showing animation.");
+                        System.out.println("Karakter Pokemon not yet loaded. Showing animation.");
                         loading.setBounds(650, 200, 102, 153);
                         newGame.add(loading);
                         loading.startAnimation();
-                        // The SwingWorker's done() method will handle showing BattleScreen when it's
+                        // The SwingWorker's done() method will handle showing Karakter Pokemon when
+                        // it's
                         // done
                     }
                 }
@@ -356,24 +364,24 @@ public class NewGame {
         text.add(text6, "Text6");
     }
 
-    private void addBattleScreen() {
+    private void addKarakterPokemon() {
         new SwingWorker<JPanel, Void>() {
             @Override
             protected JPanel doInBackground() throws Exception {
-                isReady = false;
-                BattleScreen battleScreen = new BattleScreen(newUser);
-                return battleScreen.page(); // Get the actual JPanel
+                readyChoose = false;
+                KarakterPokemon choose = new KarakterPokemon(newUser);
+                return choose; // Get the actual JPanel
             }
 
             @Override
             protected void done() {
                 try {
-                    JPanel battleScreen = get();
-                    System.out.println("sukses nambahin battlescreen");
-                    isReady = true;
+                    JPanel choose = get();
+                    System.out.println("sukses nambahin KarakterPokemon");
+                    readyChoose = true;
                     loading.stopAnimation();
-                    home.add(battleScreen, "BattleScreen");
-                    mainCard.show(home, "BattleScreen");
+                    home.add(choose, "KarakterPokemon");
+                    mainCard.show(home, "KarakterPokemon");
                     // parentFrame.pack();
                     // parentFrame.revalidate(); // Essential to ensure layout updates
                     // parentFrame.repaint(); // Essential to ensure visual updates
@@ -387,6 +395,51 @@ public class NewGame {
                 }
             }
         }.execute(); // Start the SwingWorker
+    }
+
+    private void addBattleScreen() {
+        new SwingWorker<BattleScreen, Void>() {
+            @Override
+            protected BattleScreen doInBackground() throws Exception {
+                isReady = false;
+                BattleScreen battleScreen = new BattleScreen(newUser);
+                return battleScreen; // Get the actual JPanel
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    battleScreen = get();
+                    System.out.println("sukses nambahin battlescreen");
+                    isReady = true;
+                    loadingBattle.stopAnimation();
+                    // home.add(battleScreen, "BattleScreen");
+                    // mainCard.show(home, "BattleScreen");
+                    // parentFrame.pack();
+                    // parentFrame.revalidate(); // Essential to ensure layout updates
+                    // parentFrame.repaint(); // Essential to ensure visual updates
+
+                } catch (InterruptedException | java.util.concurrent.ExecutionException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(Main.frame,
+                            "Error loading Battle Screen: " + e.getMessage(),
+                            "Loading Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.execute(); // Start the SwingWorker
+    }
+
+    public static boolean getIsReady() {
+        return isReady;
+    }
+
+    public static LoadingAnimation getLoadingBattle() {
+        return loadingBattle;
+    }
+
+    public static BattleScreen getBattleScreen() {
+        return battleScreen;
     }
 
 }

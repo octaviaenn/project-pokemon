@@ -26,22 +26,32 @@ public class BattleScreen {
     private Charmon player, enemy;
     // private JPanel buttonPanel;
     public static CustomDialog dialogAttack;
+    private JPanel home;
+    private CardLayout mainCard;
 
     public BattleScreen(User user) {
         this.user = user;
-        player = user.getCurrentChar();
-        enemy = Character.findRandom(player);
-        playerHealthBar = new HealthBar(player.getHP(), player.getHP());
-        enemyHealthBar = new HealthBar(enemy.getHP(), enemy.getHP());
         cardText = new CardLayout();
         text = new TransparentPanel("assets\\text.png");
         text.setLayout(cardText);
         text.setBounds(75, 500, 1200, 200);
+        home = Onboard.getHome();
+        mainCard = Onboard.getCard();
         // buttonPanel = new JPanel();
         // buttonPanel.setPreferredSize(new Dimension(400, 200));
         // buttonPanel.setBounds(600, 0, 400, 200);
         // buttonPanel.setVisible(true);
         // In BattleScreen constructor, after Charmon objects are ready
+
+        // setButtonsEnabled(true); // Enable player buttons for the first turn
+    }
+
+    public void init() {
+        player = user.getCurrentChar();
+        enemy = Character.findRandom(player);
+        playerHealthBar = new HealthBar(player.getHP(), player.getHP());
+        enemyHealthBar = new HealthBar(enemy.getHP(), enemy.getHP());
+
         currentBattle = new Battle(user, player,
                 // onPlayerHpChange callback
                 () -> {
@@ -51,7 +61,7 @@ public class BattleScreen {
                 },
                 // onEnemyHpChange callback
                 () -> {
-                    enemyHealthBar.setHp(currentBattle.getEnemy().getHealth() + user.getDiffHealth());
+                    enemyHealthBar.setHp(currentBattle.getEnemy().getHealth());
                     // messageLabel.setText(currentBattle.getEnemy().getName() + " took damage! HP:
                     // "
                     // + currentBattle.getEnemy().getHealth() + "/" +
@@ -90,6 +100,8 @@ public class BattleScreen {
                 },
                 // onBattleEnded callback
                 () -> {
+                    home.add(new Homepage(Main.frame, user).getMainPanel(), "Homepage");
+                    mainCard.show(home, "Homepage");
                     // buttonPanel.setVisible(false);
                     // setButtonsEnabled(false); // Disable all buttons
                     // if (player.isFainted()) {
@@ -102,13 +114,10 @@ public class BattleScreen {
         // Initial HP updates for the bars
         playerHealthBar.setHp(player.getHealth());
         enemyHealthBar.setHp(enemy.getHealth());
-        // setButtonsEnabled(true); // Enable player buttons for the first turn
     }
 
     public JPanel page() {
 
-        JPanel home = Onboard.getHome();
-        CardLayout mainCard = Onboard.getCard();
         JPanel main = new JPanel();
 
         card = new CardLayout();
@@ -257,7 +266,7 @@ public class BattleScreen {
         JLabel playerDo = new JLabel(playerText);
         playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
         playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
-        playerDo.setBounds(60, 85, 700, 50);
+        playerDo.setBounds(55, 85, 700, 50);
         // ImageIcon fightImage = new ImageIcon("assets\\fight.png");
         // ImageIcon runImage = new ImageIcon("assets\\run.png");
         // ImageIcon healImage = new ImageIcon("assets\\heal.png");
@@ -335,7 +344,7 @@ public class BattleScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image res = resumeImage.getScaledInstance(80, 40, Image.SCALE_SMOOTH);
+        Image res = resumeImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
         JButton resume = new JButton(new ImageIcon(res));
 
         BufferedImage quitImage = null;
@@ -344,7 +353,7 @@ public class BattleScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image qu = quitImage.getScaledInstance(80, 40, Image.SCALE_SMOOTH);
+        Image qu = quitImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
         JButton quit = new JButton(new ImageIcon(qu));
         // ImageIcon resumeImage = new ImageIcon("assets\\resume.png");
         // ImageIcon quitImage = new ImageIcon("assets\\quit.png");
@@ -355,8 +364,8 @@ public class BattleScreen {
         quit.setBorderPainted(false);
         quit.setContentAreaFilled(false);
 
-        resume.setBounds(75, 110, 200, 100);
-        quit.setBounds(75, 200, 200, 100);
+        resume.setBounds(100, 120, 100, 50);
+        quit.setBounds(100, 200, 100, 50);
 
         // JOptionPane optionSetting = new JOptionPane(optionPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
@@ -382,7 +391,7 @@ public class BattleScreen {
             public void actionPerformed(ActionEvent e) {
                 // nanti nyimpen state sama manggil home
                 // simpen statenya belum
-                home.add(new Homepage(Main.frame).getMainPanel(), "Homepage");
+                home.add(new Homepage(Main.frame, user).getMainPanel(), "Homepage");
                 dialogSetting.setVisible(false);
                 mainCard.show(home, "Homepage");
             }
@@ -592,20 +601,20 @@ public class BattleScreen {
         Move move2 = player.getMoves().get(1);
         Move move3 = player.getMoves().get(2);
         JLabel basicText = new JLabel(
-                String.format("<html>%s<br>(%s) Damage: %d</html>", move1.getName(), move1.getType(),
+                String.format("<html>%s<br>(%s)<br>Damage: %d/7</html>", move1.getName(), move1.getType(),
                         move1.getPower()));
         JLabel specialText = new JLabel(
-                String.format("<html>%s<br>(%s) Damage: %d</html>", move2.getName(), move2.getType(),
+                String.format("<html>%s<br>(%s)<br>Damage: %d/7</html>", move2.getName(), move2.getType(),
                         move2.getPower()));
         JLabel elementalText = new JLabel(
-                String.format("<html>%s<br>(%s) Damage: %d</html>", move3.getName(), move3.getType(),
+                String.format("<html>%s<br>(%s)<br>Damage: %d/7</html>", move3.getName(), move3.getType(),
                         move3.getPower()));
-        JLabel healText = new JLabel("Your HP will\nincreasing by 50%");
+        JLabel healText = new JLabel("<html>Your HP will<br>increase by 50%</html>");
 
-        basicText.setBounds(40, 70, 100, 50);
-        specialText.setBounds(160, 70, 100, 50);
-        elementalText.setBounds(40, 170, 100, 50);
-        healText.setBounds(160, 170, 100, 50);
+        basicText.setBounds(40, 90, 100, 50);
+        specialText.setBounds(160, 90, 100, 50);
+        elementalText.setBounds(40, 190, 100, 50);
+        healText.setBounds(160, 190, 100, 50);
 
         // JOptionPane optionAttack = new JOptionPane(attackPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
