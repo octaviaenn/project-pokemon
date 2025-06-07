@@ -249,7 +249,7 @@ public class KarakterPokemon extends JPanel {
     private void showCharacterPopup(String pokemonName) {
         Window parentWindow=parentFrame != null ? parentFrame: SwingUtilities.getWindowAncestor(this);
         JDialog popup = new JDialog(parentWindow, pokemonName + " Details", Dialog.ModalityType.APPLICATION_MODAL);
-        popup.setSize(600, 400); // Ukuran tetap 600x400
+        popup.setSize(600, 400); 
         popup.setLocationRelativeTo(this);
         popup.setLayout(new BorderLayout(5, 5));
 
@@ -264,7 +264,7 @@ public class KarakterPokemon extends JPanel {
         // Image Panel with left padding
         JPanel imagePanel = new JPanel(new BorderLayout());
         imagePanel.setBackground(new Color(0xDCA0A6));
-        imagePanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Added 20px left padding
+        imagePanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); 
         String gifPath = switch (pokemonName) {
             case "Pikachu" -> "assets\\charmon\\pikachu-f.gif";
             case "Bulbasaur" -> "assets\\charmon\\bulbasaur-f.gif";
