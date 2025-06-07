@@ -33,6 +33,10 @@ public class BattleScreen {
         enemy = Character.findRandom(player);
         playerHealthBar = new HealthBar(player.getHP(), player.getHP());
         enemyHealthBar = new HealthBar(enemy.getHP(), enemy.getHP());
+        cardText = new CardLayout();
+        text = new TransparentPanel("assets\\text.png");
+        text.setLayout(cardText);
+        text.setBounds(75, 500, 1200, 200);
         // buttonPanel = new JPanel();
         // buttonPanel.setPreferredSize(new Dimension(400, 200));
         // buttonPanel.setBounds(600, 0, 400, 200);
@@ -162,10 +166,6 @@ public class BattleScreen {
         // //playerPanel.add(playerStat);
         // battleBg.add(playerPanel);
 
-        cardText = new CardLayout();
-        text = new TransparentPanel("assets\\text.png");
-        text.setLayout(cardText);
-        text.setBounds(75, 500, 1200, 200);
         // text.setOpaque(false);
         battleBg.add(text);
 
@@ -257,7 +257,7 @@ public class BattleScreen {
         JLabel playerDo = new JLabel(playerText);
         playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
         playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
-        playerDo.setBounds(65, 75, 700, 50);
+        playerDo.setBounds(60, 85, 700, 50);
         // ImageIcon fightImage = new ImageIcon("assets\\fight.png");
         // ImageIcon runImage = new ImageIcon("assets\\run.png");
         // ImageIcon healImage = new ImageIcon("assets\\heal.png");
@@ -592,11 +592,14 @@ public class BattleScreen {
         Move move2 = player.getMoves().get(1);
         Move move3 = player.getMoves().get(2);
         JLabel basicText = new JLabel(
-                String.format("<html>%s<br>(%s) Damage: %d</html>", move1.getName(), move1.getType(), move1.getPower()));
+                String.format("<html>%s<br>(%s) Damage: %d</html>", move1.getName(), move1.getType(),
+                        move1.getPower()));
         JLabel specialText = new JLabel(
-                String.format("<html>%s<br>(%s) Damage: %d</html>", move2.getName(), move2.getType(), move2.getPower()));
+                String.format("<html>%s<br>(%s) Damage: %d</html>", move2.getName(), move2.getType(),
+                        move2.getPower()));
         JLabel elementalText = new JLabel(
-                String.format("<html>%s<br>(%s) Damage: %d</html>", move3.getName(), move3.getType(), move3.getPower()));
+                String.format("<html>%s<br>(%s) Damage: %d</html>", move3.getName(), move3.getType(),
+                        move3.getPower()));
         JLabel healText = new JLabel("Your HP will\nincreasing by 50%");
 
         basicText.setBounds(40, 70, 100, 50);

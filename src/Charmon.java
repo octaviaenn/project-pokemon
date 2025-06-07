@@ -12,8 +12,8 @@ public class Charmon {
     private int defense;
     private List<Move> moves;
     private String image;
-    private JPanel text = BattleScreen.getText();
-    private CardLayout cardText = BattleScreen.getCardText();
+    private JPanel text;
+    private CardLayout cardText;
 
     public Charmon(String name, Type type, int health, int attack, int defense, String image) {
         this.name = name;
@@ -42,6 +42,10 @@ public class Charmon {
     public int getHP() {
         return hp;
     }
+
+    // public setText(JPanel text){
+    // this.text =
+    // }
 
     public void setHealth(int health) { // Setter for health (needed for healing)
         this.health += health;
@@ -78,6 +82,8 @@ public class Charmon {
     public void attack(Charmon target, Move move) {
         int damage = Battle.calculateDamage(this, move, target);
         target.takeDamage(damage);
+        text = BattleScreen.getText();
+        cardText = BattleScreen.getCardText();
         JPanel textMessage = BattleScreen.textOption(this.name + " used " + move.getName() + " on " + target.getName());
         text.add(textMessage, "Message");
         cardText.show(text, "Message");
