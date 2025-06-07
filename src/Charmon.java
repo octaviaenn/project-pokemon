@@ -59,8 +59,8 @@ public class Charmon {
         return defense;
     }
 
-    public Move getMoves(int index) {
-        return moves.get(index);
+    public List<Move> getMoves() {
+        return moves;
     }
 
     public void addMove(Move move) {

@@ -253,10 +253,11 @@ public class BattleScreen {
 
         JPanel text3 = new JPanel(null);
         text3.setPreferredSize(new Dimension(1050, 200));
-        JLabel playerDo = new JLabel("What will (chara) do?");
+        String playerText = String.format("What will %s do?", player.getName());
+        JLabel playerDo = new JLabel(playerText);
         playerDo.setFont(new Font("Courier New", Font.BOLD, 20));
         playerDo.setBorder(new EmptyBorder(0, 50, 30, 50));
-        playerDo.setBounds(65, 95, 700, 50);
+        playerDo.setBounds(65, 75, 700, 50);
         // ImageIcon fightImage = new ImageIcon("assets\\fight.png");
         // ImageIcon runImage = new ImageIcon("assets\\run.png");
         // ImageIcon healImage = new ImageIcon("assets\\heal.png");
@@ -292,8 +293,8 @@ public class BattleScreen {
         run.setBorderPainted(false);
         run.setContentAreaFilled(false);
 
-        fight.setBounds(700, 60, 100, 60);
-        run.setBounds(850, 60, 100, 60);
+        fight.setBounds(550, 60, 100, 60);
+        run.setBounds(700, 60, 100, 60);
         text3.setOpaque(false);
         text3.add(playerDo);
         // JButton p = new JButton("y");
@@ -354,8 +355,8 @@ public class BattleScreen {
         quit.setBorderPainted(false);
         quit.setContentAreaFilled(false);
 
-        resume.setBounds(110, 120, 80, 40);
-        quit.setBounds(110, 200, 80, 40);
+        resume.setBounds(75, 110, 200, 100);
+        quit.setBounds(75, 200, 200, 100);
 
         // JOptionPane optionSetting = new JOptionPane(optionPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
@@ -381,7 +382,7 @@ public class BattleScreen {
             public void actionPerformed(ActionEvent e) {
                 // nanti nyimpen state sama manggil home
                 // simpen statenya belum
-//                home.add(new Homepage().getMainPanel(), "Homepage");
+                home.add(new Homepage(Main.frame).getMainPanel(), "Homepage");
                 dialogSetting.setVisible(false);
                 mainCard.show(home, "Homepage");
             }
@@ -584,8 +585,24 @@ public class BattleScreen {
 
         basic.setBounds(40, 130, 100, 50);
         special.setBounds(160, 130, 100, 50);
-        elemental.setBounds(40, 250, 100, 50);
-        heal.setBounds(40, 250, 100, 50);
+        elemental.setBounds(40, 230, 100, 50);
+        heal.setBounds(160, 230, 100, 50);
+
+        Move move1 = player.getMoves().get(0);
+        Move move2 = player.getMoves().get(1);
+        Move move3 = player.getMoves().get(2);
+        JLabel basicText = new JLabel(
+                String.format("<html>%s<br>(%s) Damage: %d</html>", move1.getName(), move1.getType(), move1.getPower()));
+        JLabel specialText = new JLabel(
+                String.format("<html>%s<br>(%s) Damage: %d</html>", move2.getName(), move2.getType(), move2.getPower()));
+        JLabel elementalText = new JLabel(
+                String.format("<html>%s<br>(%s) Damage: %d</html>", move3.getName(), move3.getType(), move3.getPower()));
+        JLabel healText = new JLabel("Your HP will\nincreasing by 50%");
+
+        basicText.setBounds(40, 70, 100, 50);
+        specialText.setBounds(160, 70, 100, 50);
+        elementalText.setBounds(40, 170, 100, 50);
+        healText.setBounds(160, 170, 100, 50);
 
         // JOptionPane optionAttack = new JOptionPane(attackPanel,
         // JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
@@ -594,6 +611,11 @@ public class BattleScreen {
         dialogAttack.addButton(basic);
         dialogAttack.addButton(special);
         dialogAttack.addButton(elemental);
+        dialogAttack.addButton(heal);
+        dialogAttack.addLabel(basicText);
+        dialogAttack.addLabel(specialText);
+        dialogAttack.addLabel(elementalText);
+        dialogAttack.addLabel(healText);
 
         fight.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -606,7 +628,7 @@ public class BattleScreen {
 
         run.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (runCount > 3) {
+                if (runCount == 3) {
                     JOptionPane.showMessageDialog(Main.frame, "You can't run more than 3 times!");
                 } else {
                     dialogMove.setVisible(true);
@@ -661,7 +683,7 @@ public class BattleScreen {
         return cardText;
     }
 
-    public static JPanel getText() {
+    public static TransparentPanel getText() {
         return text;
     }
 
