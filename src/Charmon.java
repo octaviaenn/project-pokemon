@@ -12,8 +12,8 @@ public class Charmon {
     private int defense;
     private List<Move> moves;
     private String image;
-    private JPanel text;
-    private CardLayout cardText;
+    private JPanel text = BattleScreen.getText();
+    private CardLayout cardText = BattleScreen.getCardText();
 
     public Charmon(String name, Type type, int health, int attack, int defense, String image) {
         this.name = name;
@@ -59,8 +59,8 @@ public class Charmon {
         return defense;
     }
 
-    public List<Move> getMoves() {
-        return moves;
+    public Move getMoves(int index) {
+        return moves.get(index);
     }
 
     public void addMove(Move move) {
@@ -78,8 +78,6 @@ public class Charmon {
     public void attack(Charmon target, Move move) {
         int damage = Battle.calculateDamage(this, move, target);
         target.takeDamage(damage);
-        text = BattleScreen.getText();
-        cardText = BattleScreen.getCardText();
         JPanel textMessage = BattleScreen.textOption(this.name + " used " + move.getName() + " on " + target.getName());
         text.add(textMessage, "Message");
         cardText.show(text, "Message");
