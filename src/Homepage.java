@@ -4,13 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Homepage {
-    private static JPanel mainPanel;
+    private JPanel mainPanel;
     private JButton storeButton;
     private JButton characterButton;
     private JButton battleButton;
     private JButton homeButton;
+    private JFrame frame;
 
-    public Homepage() {
+    private Store storePage;
+
+    public Homepage(JFrame frame) {
+        this.frame = frame;
         Character.define();
         mainPanel = new JPanel() {
             private Image backgroundImage = new ImageIcon("assets\\blue-cloud.jpeg").getImage();
@@ -22,7 +26,6 @@ public class Homepage {
             }
         };
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(1400, 750));
         JPanel topButtonPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -59,6 +62,15 @@ public class Homepage {
         homeButton.setFocusPainted(false);
         homeButton.setContentAreaFilled(false);
 
+
+//        ImageIcon coin = new ImageIcon("assets\\coin.png");
+//        Image cc = coin.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+//        ImageIcon stx = new ImageIcon(sg);
+//        storeButton = new JButton(stx);
+//        storeButton.setBorderPainted(false);
+//        storeButton.setFocusPainted(false);
+//        storeButton.setContentAreaFilled(false);
+
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -67,7 +79,12 @@ public class Homepage {
         storeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openStore();
+                if (storePage == null) {
+                    storePage = new Store(frame);
+                }
+                frame.setContentPane(storePage.getPanel());
+                frame.revalidate();
+                frame.repaint();
             }
         });
 
@@ -98,37 +115,31 @@ public class Homepage {
         mainPanel.add(topButtonPanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
-
-    private void openStore() {
-
-    }
-
     private void openCharacterSelection() {
 
     }
-
     private void openBattle() {
-
+        JOptionPane.showMessageDialog(mainPanel, "Battle started");
     }
-
     private void goHome() {
         Onboard.getCard().show(Onboard.getHome(), "Onboard");
     }
-
-    public static JPanel getMainPanel() {
+    public JPanel getMainPanel() {
         return mainPanel;
     }
-    // public static void main(String[] args) {
-    // SwingUtilities.invokeLater(new Runnable() {
-    // @Override
-    // public void run() {
-    // JFrame frame = new JFrame("Charmon Game - Homepage");
-    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    // frame.setContentPane(new Homepage().getMainPanel());
-    // frame.setSize(1400, 750);
-    // frame.setLocationRelativeTo(null);
-    // frame.setVisible(true);
-    // }
-    // });
-    // }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("Homepage");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                Homepage Hp = new Homepage(frame);
+                frame.setContentPane(Hp.getMainPanel());
+                frame.setSize(1400, 750);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
+    }
 }

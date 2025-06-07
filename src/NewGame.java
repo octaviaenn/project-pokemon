@@ -230,6 +230,11 @@ public class NewGame {
         inputName.setBounds(0, 0, 700, 500);
         JLabel nameText = new JLabel("Enter your name here");
         JTextField name = new JTextField();
+//        if (name != null && !name.getText().isEmpty()) {
+//            String a = name.getText();
+//            User newUser = new User(a);
+//            UserData.addUser(newUser);
+//        }
         name.setOpaque(false);
         name.setPreferredSize(new Dimension(270, 60));
         name.setBounds(30, 60, 180, 30);

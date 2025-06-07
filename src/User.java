@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-
     private String name;
     private int level;
     private int coin;
@@ -10,7 +9,6 @@ public class User {
     private Charmon currentChar;
     private Charmon[] chara = new Charmon[15];
     private List<Charmon> availChar;
-    // private String[] charaName = new String[5]
     private int charaCount = 0;
     private int victoryCount = 0;
     private int diffHealth = 0;
@@ -103,5 +101,13 @@ public class User {
 
     public int getVictoryCount() {
         return victoryCount;
+    }
+
+    public boolean expend(int amount) {
+        if(coin >= amount) {
+            coin -= amount;
+            return true;
+        }
+        return false;
     }
 }

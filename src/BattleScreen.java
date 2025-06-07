@@ -381,7 +381,7 @@ public class BattleScreen {
             public void actionPerformed(ActionEvent e) {
                 // nanti nyimpen state sama manggil home
                 // simpen statenya belum
-                home.add(new Homepage().getMainPanel(), "Homepage");
+//                home.add(new Homepage().getMainPanel(), "Homepage");
                 dialogSetting.setVisible(false);
                 mainCard.show(home, "Homepage");
             }

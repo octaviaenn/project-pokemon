@@ -112,5 +112,4 @@ public class Character {
     public static List<Charmon> getChara() {
         return chara;
     }
-
 }

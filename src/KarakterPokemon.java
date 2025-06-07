@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class KarakterPokemon extends JPanel {
     private String selectedCharacter = null;
+    private JFrame parentFrame;
 
     // Data Pokémon
     private static class PokemonData {
@@ -135,9 +136,15 @@ public class KarakterPokemon extends JPanel {
         // }
         // backButton.setPreferredSize(new Dimension(140, 50));
         backButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Kembali ke halaman Home!");
+            if (parentFrame != null) {
+                Homepage hp = new Homepage(parentFrame);
+                parentFrame.setContentPane(hp.getMainPanel());
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            } else {
+                JOptionPane.showMessageDialog(this, "Kembali ke halaman Home!");
+            }
         });
-
         // Tombol Start
         BufferedImage startImage = null;
         try {
@@ -238,10 +245,10 @@ public class KarakterPokemon extends JPanel {
         });
         return card;
     }
-
     // Pop-up detail karakter
     private void showCharacterPopup(String pokemonName) {
-        JDialog popup = new JDialog(Main.frame, pokemonName + " Details", true);
+        Window parentWindow=parentFrame != null ? parentFrame: SwingUtilities.getWindowAncestor(this);
+        JDialog popup = new JDialog(parentWindow, pokemonName + " Details", Dialog.ModalityType.APPLICATION_MODAL);
         popup.setSize(600, 400); // Ukuran tetap 600x400
         popup.setLocationRelativeTo(this);
         popup.setLayout(new BorderLayout(5, 5));

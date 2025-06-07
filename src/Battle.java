@@ -1,6 +1,6 @@
 import javax.swing.*; // Needed for SwingUtilities.invokeLater
 import java.awt.*;
-import javafx.scene.text.Font;
+//import javafx.scene.text.Font;
 
 import java.util.ArrayList; // Assuming Charmon and Move are in the same package or imported
 // Import Charmon.Type and Charmon.Move if they are inner classes as shown above

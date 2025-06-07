@@ -12,36 +12,30 @@ public class Store {
     private static final int skillUp=500;
     private static CardLayout card;
     private JPanel frem;
+    private JFrame frame;
 
     public Store(JFrame frame){
+        this.frame = frame;
         frem = new JPanel();
         frame.add(frem);
-        card = new CardLayout();
         frem.setSize(1400, 750);
+        card = new CardLayout();
         frem.setLayout(card);
         ImagePanel bg = new ImagePanel("assets\\blue-cloud.jpeg");
         bg.setLayout(new BoxLayout(bg, BoxLayout.Y_AXIS));
         frem.add(bg, "Onboard");
-        frem.setPreferredSize(new Dimension(1400, 750));
         ImageIcon title = new ImageIcon("assets\\charmon-store.png");
         JLabel titlee = new JLabel(title);
         titlee.setAlignmentX(Component.CENTER_ALIGNMENT);
         titlee.setBounds(400, 50, title.getIconWidth(), title.getIconHeight());
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(10, 10, 70, 10);
         bg.add(titlee);
 
         ImageIcon posion = new ImageIcon("assets\\buyPotion.png");
         JButton buypot = new JButton(posion);
-        // buypot.setFont(new Font("Verdana", Font.BOLD, 20));
         buypot.setBorderPainted(false);
         buypot.setContentAreaFilled(false);
         buypot.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buypot.setBounds(600, 300, 200, 100);
+        buypot.setBounds(300,300,50,50);
         bg.add(buypot);
         buypot.addActionListener(new ActionListener() {
             @Override
@@ -54,15 +48,24 @@ public class Store {
         JButton upgred = new JButton(skillUp);
         upgred.setBorderPainted(false);
         upgred.setContentAreaFilled(false);
-        upgred.setBounds(600, 400, 200, 100);
         bg.add(upgred);
 
         ImageIcon baack = new ImageIcon("assets\\back.png");
         JButton back = new JButton(baack);
         back.setBorderPainted(false);
         back.setContentAreaFilled(false);
-        back.setBounds(600, 500, 65, 65);
+        back.setBounds(200,200,10,10);
         bg.add(back);
+
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Homepage hp = new Homepage(frame);
+                frame.setContentPane(hp.getMainPanel());
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
     }
 //
 ////    public Store(User user,Character character){
