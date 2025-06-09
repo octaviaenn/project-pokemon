@@ -1,21 +1,18 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserData {
-    private static List<User> users = new ArrayList<>();
+    private static ArrayList<User> users = new ArrayList<>();
 
     public static void addUser(User user) {
         users.add(user);
     }
-    public static List<User> getUsers() {
+
+    public static ArrayList<User> getUsers() {
+        users.add(new User("pleyer"));
+        users.get(0).addLevel(); users.get(0).addLevel();
+        users.add(new User("weeb"));
+        users.add(new User("epic"));
+        users.get(2).addLevel(); users.get(2).addLevel(); users.get(2).addLevel();
         return users;
-    }
-    public static User getUserName(String name) {
-        for (User x : users){
-            if(x.getName().equals(name)){
-                return x;
-            }
-        }
-        return null;
     }
 }
