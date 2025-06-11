@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 public class Homepage {
     private JPanel mainPanel;
     private JButton storeButton;
-    private JButton characterButton;
     private JButton battleButton;
     private JButton homeButton;
     private JFrame frame;
@@ -38,6 +37,11 @@ public class Homepage {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
+        JPanel coinPanel = new JPanel();
+        coinPanel.setOpaque(false);
+        coinPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        coinPanel.setPreferredSize(new Dimension(100, 40));
+
         ImageIcon store = new ImageIcon("assets\\store.png");
         Image sg = store.getImage().getScaledInstance(150, 75, Image.SCALE_SMOOTH);
         ImageIcon stx = new ImageIcon(sg);
@@ -63,6 +67,17 @@ public class Homepage {
         battleButton.setFocusPainted(false);
         battleButton.setContentAreaFilled(false);
 
+        ImageIcon coinIcon = new ImageIcon("assets\\coin.png");
+        Image scaledCoin = coinIcon.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+        JLabel coinLabel = new JLabel(new ImageIcon(scaledCoin));
+        coinLabel.setText("1000");
+        coinLabel.setForeground(Color.BLACK);
+        coinLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        coinLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
+        coinLabel.setVerticalTextPosition(SwingConstants.CENTER);
+        coinLabel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        coinPanel.add(coinLabel);
+
         ImageIcon home = new ImageIcon("assets\\onbrd.png");
         Image imd = home.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
         ImageIcon hx = new ImageIcon(imd);
@@ -84,11 +99,13 @@ public class Homepage {
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.add(homeButton);
         topButtonPanel.setOpaque(false);
+        topButtonPanel.add(coinPanel);
+        mainPanel.add(topButtonPanel, BorderLayout.NORTH);
         storeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (storePage == null) {
-                    storePage = new Store(frame);
+//                    storePage = new Store(frame);
                 }
                 frame.setContentPane(storePage.getPanel());
                 frame.revalidate();

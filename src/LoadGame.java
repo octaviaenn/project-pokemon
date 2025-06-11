@@ -1,94 +1,156 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoadGame {
-    private JFrame main;
-    private JPanel loadPanel;
-    public LoadGame(JFrame frame) {
-        this.main = frame;
-        this.loadPanel = new JPanel();
-        this.loadPanel.setLayout(null);
-        ImagePanel bg = new ImagePanel("assets\\blue-cloud.jpeg");
-        bg.setBounds(0,0,main.getWidth(),main.getHeight());
-        bg.setLayout(null);
-        this.loadPanel.add(bg);
+    private JPanel mainPanel;
+    private JButton homeButton;
+    private JFrame frame;
+    private User user;
+    private CardLayout mainCard;
+    private JPanel home;
+    private JButton loadButton;
+    private JButton selectedAcc=null;
+    private String selectedUsn = "";
 
-        JLabel title = new JLabel("Choose your account");
-        title.setFont(new Font("Impact", Font.BOLD, 40));
-        title.setForeground(Color.WHITE);
-        title.setBounds(450,100,500,50);
-        bg.add(title);
+    public LoadGame(JFrame frame, User user) {
+        mainCard = Onboard.getCard();
+        home = Onboard.getHome();
+        this.frame = frame;
+        this.user = user;
+        mainPanel = new JPanel() {
+            private Image backgroundImage = new ImageIcon("assets\\blue-cloud.jpeg").getImage();
 
-        JPanel listUser = new JPanel();
-        listUser.setLayout(new BoxLayout(listUser, BoxLayout.Y_AXIS));
-        listUser.setBounds(400,200,500,300);
-        listUser.setOpaque(false);
-        JScrollPane scroll = new JScrollPane(listUser);
-        scroll.setBounds(400,200,500,300);
-        scroll.getViewport().setOpaque(false);
-        bg.add(scroll);
-        ArrayList<User> users = new ArrayList<>();
-
-        if(users.isEmpty()){
-            JLabel noGame = new JLabel("No Game Has Been Saved Yet !");
-            noGame.setFont(new Font("Impact", Font.BOLD, 25));
-            noGame.setForeground(Color.WHITE);
-            noGame.setAlignmentX(Component.CENTER_ALIGNMENT);
-            listUser.add(noGame);
-            //-balek main
-        }else {
-            for (User user : users) {
-                JPanel userPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-                userPanel.setOpaque(false);
-                userPanel.setMaximumSize(new Dimension(scroll.getWidth(), 50));
-
-                JLabel userlabel = new JLabel(user.getName() + " (" + user.getLevel() + ")");
-                userlabel.setFont(new Font("Impact", Font.BOLD, 20));
-                userlabel.setForeground(Color.WHITE);
-                userPanel.add(userlabel);
-                JButton loadBtn = new JButton("Load " + user.getName());
-                loadBtn.setFont(new Font("Impact", Font.BOLD, 20));
-                loadBtn.setBackground(new Color(0x7FDCD2));
-                loadBtn.setForeground(Color.WHITE);
-                loadBtn.setPreferredSize(new Dimension(150, 50));
-                loadBtn.addActionListener(e -> {
-                    BattleScreen bs = new BattleScreen(user);
-                    JPanel battlePanel = bs.page();
-                    JPanel home = Onboard.getHome();
-                    CardLayout card = Onboard.getCard();
-                    home.add(battlePanel, "BattleScreen");
-                    card.show(home, "BattleScreen");
-                });
-                userPanel.add(loadBtn);
-                listUser.add(userPanel);
-                listUser.add(Box.createRigidArea(new Dimension(0, 10)));
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
+        };
+        mainPanel.setLayout(new BorderLayout());
+        JPanel topPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
+        topPanel.setOpaque(false);
+        bottomPanel.setOpaque(false);
+//        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER,20,10));
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER,20,10));
+
+        JLabel selectUser = new JLabel();
+        selectUser.setOpaque(false);
+        selectUser.setFont(new Font("Arial", Font.BOLD, 40));
+        selectUser.setForeground(Color.WHITE);
+        selectUser.setHorizontalAlignment(JLabel.CENTER);
+        selectUser.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+        ImageIcon home = new ImageIcon("assets\\onbrd.png");
+        Image imd = home.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+        ImageIcon hx = new ImageIcon(imd);
+        homeButton = new JButton(hx);
+        homeButton.setBorderPainted(false);
+        homeButton.setFocusPainted(false);
+        homeButton.setContentAreaFilled(false);
+
+        ImageIcon loadAcc = new ImageIcon("assets\\load-acc.png");
+        Image ld = loadAcc.getImage().getScaledInstance(200,75,Image.SCALE_SMOOTH);
+        ImageIcon lc = new ImageIcon(ld);
+        loadButton = new JButton(lc);
+        loadButton.setBorderPainted(false);
+        loadButton.setFocusPainted(false);
+        loadButton.setContentAreaFilled(false);
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!selectedUsn.isEmpty()){
+                    JOptionPane.showMessageDialog(frame,"Load Account :  "+selectedUsn);
+                }else{
+                    JOptionPane.showMessageDialog(frame, "Choose account first!");
+                }
+            }
+        });
+
+//        topButtonPanel.add(coinPanel);
+
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goHome();
+            }
+        });
+        topPanel.add(selectUser);
+        bottomPanel.add(homeButton);
+        bottomPanel.add(loadButton);
+        JPanel listUser = new JPanel();
+        listUser.setOpaque(false);
+        listUser.setLayout(new BoxLayout(listUser, BoxLayout.Y_AXIS));
+        List<String> username = new ArrayList<>();
+        for(int i=1; i<=15; i++){//dummy user
+            username.add("User "+i+" - Level "+(i*5));
         }
-        ImageIcon backTomain = new ImageIcon("assets\\onbrd.png");
-        JButton back = new JButton(backTomain);
-        back.setBorderPainted(false);
-        back.setContentAreaFilled(false);
-        back.setBounds(575,550,150,75);
-        back.addActionListener(e -> {
-//                Onboard.getCard().show(Onboard.getHome()),"Onboard");
-    });
-        bg.add(back);
-    }
-    public JPanel page() {
-        return loadPanel;
+        for(String usn : username){
+            //msh button, hrusnya list ajh
+            JButton labelUser = new JButton(usn);
+            labelUser.setFont(new Font("Arial", Font.BOLD, 20));
+            labelUser.setForeground(Color.BLACK);
+            labelUser.setBackground(new Color(148, 229, 243));
+            labelUser.setBorderPainted(false);
+            labelUser.setFocusPainted(false);
+            labelUser.setContentAreaFilled(true);
+            labelUser.setAlignmentX(Component.CENTER_ALIGNMENT);
+            labelUser.setMaximumSize(new Dimension(350,100));
+            labelUser.setPreferredSize(new Dimension(100, 40));
+            labelUser.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(selectedAcc!=null){
+                        selectedAcc.setBackground(new Color(148, 229, 243));
+                        selectedAcc.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                    }
+                    selectedAcc=(JButton) e.getSource();
+                    selectedUsn=selectedAcc.getText();
+                    selectedAcc.setBackground(new Color(70,130,180,200));
+                    selectedAcc.setBorder(BorderFactory.createLineBorder(Color.CYAN,3,true));
+                }
+            });
+            listUser.add(labelUser);
+            listUser.add(Box.createRigidArea(new Dimension(0, 5)));
+
+            listUser.add(labelUser);
+            listUser.add(Box.createRigidArea(new Dimension(0, 10)));
+        }
+        JScrollPane scroll = new JScrollPane((listUser));
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(BorderFactory.createEmptyBorder());//1 argument tapi found 2
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(scroll, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    public static void main(String[] args) {
-        JFrame load = new JFrame("Load Game");
-        load.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        load.setSize(500, 500);
-        load.setLocationRelativeTo(null);
-        JPanel home = Onboard.getHome();
-        load.add(home);
-        LoadGame loadGameScreen = new LoadGame(load);
-        home.add(loadGameScreen.page(), "LoadGame");
-        load.setVisible(true);
-        Onboard.getCard().show(home, "LoadGame");
+     private void goHome() {
+        Onboard.getCard().show(Onboard.getHome(), "Onboard");
     }
+
+     public JPanel getMainPanel() {
+        return mainPanel;
     }
+
+     public static void main(String[] args) {
+     SwingUtilities.invokeLater(new Runnable() {
+     @Override
+     public void run() {
+     JFrame frame = new JFrame("Homepage");
+     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     User dummyUser = new User("TestUser");//1 argument tapi found 2
+     LoadGame lg = new LoadGame(frame,dummyUser);
+     frame.setContentPane(lg.getMainPanel());
+     frame.setSize(1400, 750);
+     frame.setLocationRelativeTo(null);
+     frame.setVisible(true);
+     }
+     });
+     }
+     }
